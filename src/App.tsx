@@ -1,6 +1,7 @@
 import './assets/App.scss'
 import './assets/Product.scss'
 import './assets/Sidebar.scss'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import PocketBase from 'pocketbase'
 import { useEffect, useState } from 'react'
 import db from './Database'
@@ -29,13 +30,20 @@ function App() {
                 <div
                   className="cover-img"
                   style={{ '--background': `url('${product.image}')` }}
-                ></div>
-                <div className="details">{product.title}</div>
-                <div className="call-to-action">
-                  <a href="#">
-                    <i class="bi bi-cart-plus"></i>
-                    Add to cart
-                  </a>
+                >
+                  <div className="cover">
+                    <a role="button" href="#" className="contrast outline">
+                      View
+                    </a>
+                  </div>
+                </div>
+                <div className="content">
+                  <div className="details">{product.title}</div>
+                  <div className="call-to-action">
+                    <a className="add-to-cart" href="#">
+                      <i class="bi bi-cart-plus"></i>&nbsp; Add to cart
+                    </a>
+                  </div>
                 </div>
               </article>
             </div>
