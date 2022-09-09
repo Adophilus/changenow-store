@@ -1,0 +1,2 @@
+You can get the fashion.csv file from here 👇
+https://www.kaggle.com/datasets/vikashrajluhaniwal/fashion-images?resource=download

@@ -1,0 +1,27 @@
+{
+  "name": "changenow-store",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "db:start": "env $(cat .env | xargs) bin/pocketbase serve --http $POCKETBASE_HOST:$POCKETBASE_PORT --dir $POCKETBASE_DIR --encryptionEnv=POCKETBASE_ENCRYPTION_KEY",
+    "db:init": "node data/import.js",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@picocss/pico": "^1.5.3",
+    "dotenv": "^16.0.2",
+    "pocketbase": "^0.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
+  }
+}
