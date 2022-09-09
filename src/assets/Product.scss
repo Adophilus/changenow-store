@@ -1,0 +1,17 @@
+.product-tab > .cover-img {
+  height: 150px;
+  background-image: var(--background);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.product-tab > .details {
+  margin-top: calc(var(--typography-spacing-vertical));
+  margin-bottom: calc(var(--typography-spacing-vertical));
+}
+
+.product-tab > .call-to-action {
+  display: flex;
+  justify-content: end;
+}

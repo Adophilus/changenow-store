@@ -1,20 +1,27 @@
 import PocketBase from 'pocketbase'
 import * as dotenv from 'dotenv'
-import Database from 'database.json' assert { type: 'json' }
+import Database from './database.json' assert { type: 'json' }
 
 dotenv.config()
 
-const client = new PocketBase(pocess.env.POCKETBASE_URL)
-await client.Admins.authViaEmail(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASS)
+const client = new PocketBase(process.env.POCKETBASE_URL)
+await client.Admins.authViaEmail(
+  process.env.POCKETBASE_ADMIN_EMAIL,
+  process.env.POCKETBASE_ADMIN_PASS
+)
 
 const createCollections = async () => {
-  await client.Collections.delete('products')
+  console.log('Creating collections...')
+
+  try {
+    await client.Collections.delete('products')
+  } catch (err) {}
 
   await client.Collections.create({
     name: 'products',
     schema: [
       {
-        name: 'id',
+        name: 'sku',
         type: 'number',
         required: true
       },
@@ -31,7 +38,7 @@ const createCollections = async () => {
       {
         name: 'subCategory',
         type: 'text',
-        required: 'true'
+        required: true
       },
       {
         name: 'type',
@@ -58,28 +65,35 @@ const createCollections = async () => {
         type: 'text',
         required: true
       }
-    ]
+    ],
+    listRule: '',
+    viewRule: ''
   })
 }
 
 const importData = async () => {
+  console.log('Importing data...')
+
   for (let record of Database) {
-    await client.Records.create('products', {
-      id: record.ProductId,
-      title: record.ProductTitle,
-      category: record.Category,
-      subCategory: record.SubCategory,
-      type: record.ProductType,
-      gender: record.Gender,
-      color: record.Color,
-      usage: record.Usage,
-      image: record.ImageURL
-    }, {
-        '$autoCancel': false
-      })
+    await client.Records.create(
+      'products',
+      {
+        sku: record.ProductId,
+        title: record.ProductTitle,
+        category: record.Category,
+        subCategory: record.SubCategory,
+        type: record.ProductType,
+        gender: record.Gender,
+        color: record.Colour,
+        usage: record.Usage,
+        image: record.ImageURL
+      },
+      {
+        $autoCancel: false
+      }
+    )
   }
 }
-
 
 const run = async () => {
   await createCollections()
@@ -87,3 +101,5 @@ const run = async () => {
 
   console.log('all done!')
 }
+
+run()

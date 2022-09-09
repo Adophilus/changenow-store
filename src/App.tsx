@@ -1,33 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import './assets/App.scss'
+import './assets/Product.scss'
+import './assets/Sidebar.scss'
+import PocketBase from 'pocketbase'
+import { useEffect, useState } from 'react'
+import db from './Database'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setProducts((await db.getProducts()).items)
+    }
+    fetchProducts()
+  }, [])
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main className="container">
+      <div className="row">
+        <div className="col-xs-0 col-lg-4">
+          <aside className="sidebar">
+            <article>Sidebar</article>
+          </aside>
+        </div>
+        <div className="row col-lg-8 justify-content-center">
+          {products.map((product) => (
+            <div className="col-xs-12 col-md-6 p-2">
+              <article key={product.id} className="product-tab">
+                <div
+                  className="cover-img"
+                  style={{ '--background': `url('${product.image}')` }}
+                ></div>
+                <div className="details">{product.title}</div>
+                <div className="call-to-action">
+                  <a href="#">
+                    <i class="bi bi-cart-plus"></i>
+                    Add to cart
+                  </a>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    </main>
   )
 }
 
