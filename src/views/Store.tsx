@@ -2,7 +2,7 @@ import PocketBase from 'pocketbase'
 import { useRef, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import db from '../Database'
-import Navbar from '../components/layout/Navbar'
+import Layout from '../components/layout/Layout'
 import Sidebar from '../components/layout/Sidebar'
 import Pagination from '../components/Pagination'
 import ProductTab from '../components/ProductTab'
@@ -35,7 +35,6 @@ export default () => {
       pageSize: productMeta.perPage,
       currentPage: productMeta.page
     })
-    console.log(productMeta.items)
     setProducts(productMeta.items)
   }
 
@@ -48,8 +47,7 @@ export default () => {
   }, [])
 
   return (
-    <main className="container">
-      <Navbar />
+    <Layout>
       <div className="row">
         <div className="col-xs-0 col-lg-4">
           <Sidebar
@@ -67,19 +65,26 @@ export default () => {
         </div>
         <div className="row col-lg-8 justify-content-center">
           {products ? (
-            products.map((product) => (
-              <div key={product.id} className="col-xs-12 col-md-6">
-                <ProductTab product={product} />
+            products.length ? (
+              products.map((product) => (
+                <div key={product.id} className="col-xs-12 col-md-6">
+                  <ProductTab product={product} />
+                </div>
+              ))
+            ) : (
+              <div className="no-products-found">
+                <i className="icon bi bi-emoji-frown"></i>
+                <h3>No products found!</h3>
               </div>
-            ))
+            )
           ) : (
             <div aria-busy="true"></div>
           )}
-          <div className="row" style={{ textAlign: 'center' }}>
+          <div className="row">
             <Pagination {...paginationData} onPageChange={onPageChange} />
           </div>
         </div>
       </div>
-    </main>
+    </Layout>
   )
 }

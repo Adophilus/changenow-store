@@ -10,7 +10,8 @@ export default ({ onPageChange, totalCount, pageSize, currentPage }) => {
 
   const lastPage = totalCount / pageSize + (totalCount % pageSize ? 1 : 0)
 
-  if (pages)
+  if (pages) {
+    if (!pages.length) return null
     return (
       <nav className="pagination">
         <ul>
@@ -57,4 +58,5 @@ export default ({ onPageChange, totalCount, pageSize, currentPage }) => {
         </ul>
       </nav>
     )
+  }
 }

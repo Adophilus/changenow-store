@@ -1,4 +1,3 @@
-
 .product-tab {
   --border-radius: 20px;
 
@@ -30,7 +29,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   transition-property: opacity;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
@@ -60,7 +59,7 @@
   margin-bottom: calc(var(--typography-spacing-vertical));
 }
 
-.product-tab  > .content > .call-to-action {
+.product-tab > .content > .call-to-action {
   display: flex;
   justify-content: space-between;
 }
@@ -70,14 +69,48 @@
   --text-decoration: none;
 }
 
-.product-tab  > .content > .call-to-action > .favourite-marker {
+.product-tab > .content > .call-to-action > .favourite-marker {
   color: rgb(0, 0, 0);
 }
 
-.product-tab  > .content > .call-to-action > .favourite-marker.marked {
+.product-tab > .content > .call-to-action > .favourite-marker.marked {
   color: rgb(155, 31, 33);
 }
 
-.product-tab  > .content > .call-to-action > .add-to-cart:hover {
+.product-tab > .content > .call-to-action > .add-to-cart:hover {
   text-decoration: none;
+}
+
+.product-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: calc(var(--block-spacing-horizontal) * 3);
+  padding-right: calc(var(--block-spacing-horizontal) * 3);
+  transform: scale(90%);
+}
+
+.product-title {
+  text-align: center;
+}
+
+.product-btns {
+  display: flex;
+  justify-content: center;
+  column-gap: var(--block-spacing-horizontal);
+}
+
+.no-products-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-products-found a {
+  --text-decoration: none;
+}
+
+.no-products-found .icon {
+  font-size: 50px;
 }

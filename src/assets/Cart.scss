@@ -1,0 +1,18 @@
+.cart-indicator {
+  position: relative;
+  color: inherit;
+}
+
+.cart-indicator.not-empty::before {
+  border-radius: 50%;
+  content: '';
+  height: 10px;
+  right: 20%;
+  position: absolute;
+  width: 10px;
+  box-shadow: 0px 2px 3px rgb(13, 13, 13, 0.8);
+}
+
+.cart-indicator.not-empty::before {
+  background-color: rgba(255, 44, 36, 0.8);
+}
