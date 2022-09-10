@@ -64,6 +64,11 @@
   justify-content: space-between;
 }
 
+.product-tab > .content > .call-to-action a {
+  --background-color: transparent;
+  --text-decoration: none;
+}
+
 .product-tab  > .content > .call-to-action > .favourite-marker {
   color: rgb(0, 0, 0);
 }

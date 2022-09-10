@@ -1,13 +1,16 @@
-import './assets/App.scss'
-import './assets/Product.scss'
-import './assets/Sidebar.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import '../assets/Product.scss'
 import PocketBase from 'pocketbase'
 import { useEffect, useState } from 'react'
-import db from './Database'
+import db from '../Database'
+import Navbar from '../components/layout/Navbar'
+import Sidebar from '../components/layout/Sidebar'
 
-function App() {
+export default () => {
   const [products, setProducts] = useState([])
+
+  const addItemToCart = () => {}
+
   useEffect(() => {
     const fetchProducts = async () => {
       setProducts((await db.getProducts()).items)
@@ -17,33 +20,30 @@ function App() {
 
   return (
     <main className="container">
-      <nav>
-        <ul>
-          <li>Estore</li>
-        </ul>
-        <ul>
-          <li>Home</li>
-          <li>Store</li>
-
-          <li>About</li>
-        </ul>
-      </nav>
+      <Navbar />
       <div className="row">
         <div className="col-xs-0 col-lg-4">
-          <aside className="sidebar">
-            <article>Sidebar</article>
-          </aside>
+          <Sidebar />
         </div>
         <div className="row col-lg-8 justify-content-center">
           {products.map((product) => (
-            <div className="col-xs-12 col-md-6 p-2">
-              <article key={product.id} className="product-tab">
+            <div key={product.id} className="col-xs-12 col-md-6 p-2">
+              <article className="product-tab">
                 <div
                   className="cover-img"
                   style={{ '--background': `url('${product.image}')` }}
                 >
                   <div className="cover">
-                    <a role="button" href="#" className="contrast outline">
+                    <a
+                      role="button"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+
+                        addItemToCart(product)
+                      }}
+                      className="contrast outline"
+                    >
                       View
                     </a>
                   </div>
@@ -54,8 +54,16 @@ function App() {
                     <a href="#" className="favourite-marker">
                       <i className="bi bi-suit-heart"></i>
                     </a>
-                    <a className="add-to-cart" href="#">
-                      <i class="bi bi-cart-plus"></i>&nbsp; Add to cart
+                    <a
+                      className="add-to-cart"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+
+                        addItemToCart(product)
+                      }}
+                    >
+                      <i className="bi bi-cart-plus"></i>&nbsp; Add to cart
                     </a>
                   </div>
                 </div>
@@ -67,5 +75,3 @@ function App() {
     </main>
   )
 }
-
-export default App
