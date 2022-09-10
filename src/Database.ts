@@ -4,6 +4,12 @@ import PocketBase from 'pocketbase'
 export const client = new PocketBase(import.meta.env.VITE_POCKETBASE_URL)
 
 export default {
+  async getCategories() {
+    return client.Records.getFullList('categories', 100)
+  },
+  async getSubCategories() {
+    return client.Records.getFullList('subCategories', 100)
+  },
   async getProducts(
     options = {
       page: 1,

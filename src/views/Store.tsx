@@ -1,19 +1,28 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import '../assets/Product.scss'
 import PocketBase from 'pocketbase'
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import db from '../Database'
 import Navbar from '../components/layout/Navbar'
 import Sidebar from '../components/layout/Sidebar'
+import Pagination from '../components/Pagination'
 
 export default () => {
   const [products, setProducts] = useState([])
+  const [paginationData, setPaginationData] = useState({})
 
   const addItemToCart = () => {}
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setProducts((await db.getProducts()).items)
+      const productMeta = await db.getProducts()
+
+      setPaginationData({
+        totalPages: productMeta.totalItems,
+        pageSize: productMeta.perPage,
+        currentPage: productMeta.page
+      })
+      setProducts(productMeta.items)
     }
     fetchProducts()
   }, [])
@@ -70,6 +79,9 @@ export default () => {
               </article>
             </div>
           ))}
+        </div>
+        <div>
+          <Pagination {...paginationData} />
         </div>
       </div>
     </main>

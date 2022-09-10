@@ -18,3 +18,29 @@ $grid-breakpoints: (
 @import "bootstrap/scss/mixins/utilities";
 @import "bootstrap/scss/vendor/rfs";
 @import "bootstrap/scss/grid";
+
+:root {
+  --scrollbar-border-radius: 10px;
+  --scrollbar-thumb-background: rgb(7, 0, 11);
+  --scrollbar-thumb-background: var(--h6-color);
+  --scrollbar-thumb-background-hover: var(--primary);
+  --scrollbar-track-background: rgb(255, 255, 255);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-background);
+  border-radius: var(--scrollbar-border-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-background);
+  border-radius: var(--scrollbar-border-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-background-hover);
+}
