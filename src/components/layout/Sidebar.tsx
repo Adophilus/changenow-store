@@ -22,7 +22,13 @@ export default ({ onCategoryChange, onSubCategoryChange }) => {
             <ul>
               {categories.map((category, index) => (
                 <li key={index}>
-                  <input type="checkbox" id={`categoryCheck${index}`} />
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      onCategoryChange(category, e.target.checked)
+                    }
+                    id={`categoryCheck${index}`}
+                  />
                   &nbsp;
                   <label htmlFor={`categoryCheck${index}`}>
                     {category.name}
@@ -40,7 +46,13 @@ export default ({ onCategoryChange, onSubCategoryChange }) => {
             <ul>
               {subCategories.map((subCategory, index) => (
                 <li key={index}>
-                  <input id={`subCategoryCheck${index}`} type="checkbox" />
+                  <input
+                    id={`subCategoryCheck${index}`}
+                    onChange={(e) =>
+                      onSubCategoryChange(subCategory, e.target.checked)
+                    }
+                    type="checkbox"
+                  />
                   &nbsp;
                   <label htmlFor={`subCategoryCheck${index}`}>
                     {subCategory.name}
