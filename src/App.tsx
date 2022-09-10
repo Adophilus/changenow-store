@@ -17,6 +17,17 @@ function App() {
 
   return (
     <main className="container">
+      <nav>
+        <ul>
+          <li>Estore</li>
+        </ul>
+        <ul>
+          <li>Home</li>
+          <li>Store</li>
+
+          <li>About</li>
+        </ul>
+      </nav>
       <div className="row">
         <div className="col-xs-0 col-lg-4">
           <aside className="sidebar">
@@ -40,6 +51,9 @@ function App() {
                 <div className="content">
                   <div className="details">{product.title}</div>
                   <div className="call-to-action">
+                    <a href="#" className="favourite-marker">
+                      <i className="bi bi-suit-heart"></i>
+                    </a>
                     <a className="add-to-cart" href="#">
                       <i class="bi bi-cart-plus"></i>&nbsp; Add to cart
                     </a>

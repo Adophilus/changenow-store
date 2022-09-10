@@ -1,10 +1,13 @@
+
 .product-tab {
+  --border-radius: 20px;
+
   display: flex;
   flex-direction: column;
   height: 400px;
   align-items: end;
   padding: 0;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
 }
 
 .product-tab > .cover-img {
@@ -28,11 +31,15 @@
   opacity: 0;
   transition-duration: .3s;
   transition-property: opacity;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
 }
 
 .product-tab > .cover-img .cover a {
-  color: white;
-  border-color: white;
+  --border-radius: 0;
+
+  color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
 }
 
 .product-tab > .cover-img:hover .cover {
@@ -54,5 +61,17 @@
 
 .product-tab  > .content > .call-to-action {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+}
+
+.product-tab  > .content > .call-to-action > .favourite-marker {
+  color: rgb(0, 0, 0);
+}
+
+.product-tab  > .content > .call-to-action > .favourite-marker.marked {
+  color: rgb(155, 31, 33);
+}
+
+.product-tab  > .content > .call-to-action > .add-to-cart:hover {
+  text-decoration: none;
 }
