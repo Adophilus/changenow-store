@@ -68,6 +68,11 @@ const createCollections = async () => {
         required: true
       },
       {
+        name: 'price',
+        type: 'number',
+        required: true
+      },
+      {
         name: 'category',
         type: 'relation',
         required: true,
@@ -146,6 +151,7 @@ const importData = async () => {
     await client.Records.create('products', {
       sku: record.ProductId,
       title: record.ProductTitle,
+      price: record.Price,
       category: category,
       subCategory: subCategory,
       type: record.ProductType,

@@ -94,6 +94,7 @@ export default () => {
           <div>
             <h3 className="product-title">{state.product.title}</h3>
           </div>
+          <div className="product-price">{state.product.price} XRP</div>
           <div className="product-btns">
             <a
               role="button"
