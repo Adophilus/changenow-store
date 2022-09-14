@@ -29,7 +29,11 @@ export default ({ product }) => {
         </div>
       </div>
       <div className="content">
-        <div className="details">{product.title}</div>
+        <div className="details">
+          {product.title}
+          <br />
+          <strong>{product.price} XRP</strong>
+        </div>
         <div className="call-to-action">
           <a
             href="#"

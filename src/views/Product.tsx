@@ -92,9 +92,11 @@ export default () => {
             <img src={state.product.image} />
           </div>
           <div>
-            <h3 className="product-title">{state.product.title}</h3>
+            <h4 className="product-title">{state.product.title}</h4>
           </div>
-          <div className="product-price">{state.product.price} XRP</div>
+          <div className="product-price">
+            <h5>{state.product.price} XRP</h5>
+          </div>
           <div className="product-btns">
             <a
               role="button"

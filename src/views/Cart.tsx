@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import db from '../Database'
 import '../assets/Loader.scss'
 import '../assets/Product.scss'
+import '../assets/Cart.scss'
 import Layout from '../components/layout/Layout'
 import { add as addToCart } from '../features/Cart'
 import { remove as removeFromCart } from '../features/Cart'
@@ -11,6 +12,38 @@ import { add as addToFavourites } from '../features/Favourites'
 import { remove as removeFromFavourites } from '../features/Favourites'
 
 const CART_EMPTY = 1
+
+const ProductRow = ({ product, cart }) => {
+  return (
+    <div className="row product-row">
+      <div className="col-lg-3">
+        <div className="cover">
+          <img src={product.image} />
+          <small>
+            <small>{product.title}</small>
+          </small>
+          <small>
+            <small>
+              <small>#{product.sku}</small>
+            </small>
+          </small>
+          <small>
+            <small>
+              <small>Color: {product.color}</small>
+            </small>
+          </small>
+        </div>
+      </div>
+      <div className="col-lg-3">
+        <strong>{product.price} XRP</strong>
+      </div>
+      <div className="col-lg-3">- 1 +</div>
+      <div className="col-lg-3">
+        <strong>{product.price * cart.items[product.id]}</strong>
+      </div>
+    </div>
+  )
+}
 
 export default () => {
   const dispatch = useDispatch()
@@ -63,10 +96,19 @@ export default () => {
           <h3>{state.error}</h3>
         </div>
       ) : (
-        <article>
-          {state.products.map((product) => (
-            <div key={product.id}>{product.title}</div>
-          ))}
+        <article className="cart">
+          <div className="row">
+            <div className="row product-row-header">
+              <div className="col-lg-3">PRODUCT</div>
+              <div className="col-lg-3">PRICE</div>
+              <div className="col-lg-3">QTY</div>
+              <div className="col-lg-3">TOTAL</div>
+            </div>
+
+            {state.products.map((product) => (
+              <ProductRow key={product.id} product={product} cart={cart} />
+            ))}
+          </div>
         </article>
       )}
     </Layout>

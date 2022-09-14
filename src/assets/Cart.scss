@@ -16,3 +16,26 @@
 .cart-indicator.not-empty::before {
   background-color: rgba(255, 44, 36, 0.8);
 }
+
+.cart .product-row-header > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart .product-row > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart .product-row .cover {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+.cart .product-row .cover img {
+  width: 100px;
+  height: 100px;
+}*/
