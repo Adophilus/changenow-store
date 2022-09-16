@@ -1,6 +1,11 @@
 import Navbar from './Navbar'
+import React from 'react'
 
-export default ({ children }) => {
+interface Props {
+  children: React.ReactNode
+}
+
+const Layout: React.FC<Props> = ({ children }) => {
   return (
     <main className="container">
       <Navbar />
@@ -8,3 +13,5 @@ export default ({ children }) => {
     </main>
   )
 }
+
+export default Layout

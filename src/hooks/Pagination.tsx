@@ -2,9 +2,16 @@ import { useMemo } from 'react'
 
 export const DOTS = '...'
 
-const range = (start, end) => {
-  let length = end - start + 1
+const range = (start: number, end: number): number[] => {
+  const length = end - start + 1
   return Array.from({ length }, (_, idx) => idx + start)
+}
+
+interface Props {
+  totalCount: number
+  pageSize: number
+  currentPage: number
+  siblingCount?: number
 }
 
 export const usePagination = ({
@@ -12,7 +19,7 @@ export const usePagination = ({
   pageSize,
   siblingCount = 1,
   currentPage
-}) => {
+}: Props): (Array<(string | number)> | undefined) => {
   const paginationRange = useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize)
 
@@ -34,7 +41,7 @@ export const usePagination = ({
     )
 
     /*
-      We do not want to show dots if there is only one position left 
+      We do not want to show dots if there is only one position left
       after/before the left/right page count as that would lead to a change if our Pagination
       component size which we do not want
     */
@@ -45,15 +52,15 @@ export const usePagination = ({
     const lastPageIndex = totalPageCount
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      let leftItemCount = 3 + 2 * siblingCount
-      let leftRange = range(1, leftItemCount)
+      const leftItemCount = 3 + 2 * siblingCount
+      const leftRange = range(1, leftItemCount)
 
       return [...leftRange, DOTS, totalPageCount]
     }
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      let rightItemCount = 3 + 2 * siblingCount
-      let rightRange = range(
+      const rightItemCount = 3 + 2 * siblingCount
+      const rightRange = range(
         totalPageCount - rightItemCount + 1,
         totalPageCount
       )
@@ -61,7 +68,7 @@ export const usePagination = ({
     }
 
     if (shouldShowLeftDots && shouldShowRightDots) {
-      let middleRange = range(leftSiblingIndex, rightSiblingIndex)
+      const middleRange = range(leftSiblingIndex, rightSiblingIndex)
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
     }
   }, [totalCount, pageSize, siblingCount, currentPage])

@@ -1,3 +1,4 @@
+import React from 'react'
 import { usePagination, DOTS } from '../hooks/Pagination'
 import '../assets/Pagination.scss'
 
@@ -5,21 +6,20 @@ interface Props {
   totalCount: number
   pageSize: number
   currentPage: number
-  onPageChange: () => void
+  onPageChange: (pageNumber: (string | number)) => void
 }
 
-export default function Pagination ({ onPageChange, totalCount, pageSize, currentPage }: Props) {
+export default function Pagination ({ onPageChange, totalCount, pageSize, currentPage }: Props): React.FC | undefined {
   const pages = usePagination({
     totalCount,
     pageSize,
     currentPage
   })
 
-  const lastPage = totalCount / pageSize + (totalCount % pageSize ? 1 : 0)
+  const lastPage = totalCount / pageSize + (totalCount % pageSize > 0 ? 1 : 0)
 
-  if (pages != null) {
-    if (pages.length === 0) return null
-    return (
+  if (pages !== undefined) {
+    return
       <nav className="pagination">
         <ul>
           <li>
@@ -35,7 +35,7 @@ export default function Pagination ({ onPageChange, totalCount, pageSize, curren
               </a>
                 )}
           </li>
-          {pages.map((page, index) => (
+          {pages?.map((page, index) => (
             <li key={index}>
               {page === DOTS || page === currentPage
                 ? (
@@ -70,6 +70,5 @@ export default function Pagination ({ onPageChange, totalCount, pageSize, curren
           </li>
         </ul>
       </nav>
-    )
   }
 }

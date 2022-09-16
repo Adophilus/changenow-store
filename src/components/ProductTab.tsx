@@ -3,12 +3,18 @@ import '../assets/Product.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useDispatch } from 'react-redux'
 import { add as addToCart } from '../features/Cart'
+import React from 'react'
+import { IProduct } from '../types/Collections'
 
-export default ({ product }) => {
+interface Props {
+  product: IProduct
+}
+
+const ProductTab: React.FC<Props> = ({ product }) => {
   const dispatch = useDispatch()
 
-  const addItemToFavourites = () => {}
-  const addItemToCart = () => {
+  const addItemToFavourites = (): void => {}
+  const addItemToCart = (): void => {
     dispatch(addToCart({ product: { id: product.id }, quantity: 1 }))
   }
 
@@ -62,3 +68,5 @@ export default ({ product }) => {
     </article>
   )
 }
+
+export default ProductTab
