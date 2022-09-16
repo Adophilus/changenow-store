@@ -7,6 +7,7 @@
     "db:start": "env $(cat .env | xargs) bin/db-start",
     "db:init": "node dataset/init-db.js",
     "format:watch": "cd .scripts && pnpm format:watch ..",
+    "lint:watch": "cd .scripts && pnpm lint:watch ..",
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview"
@@ -28,6 +29,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.37.0",
     "@vitejs/plugin-react": "^2.1.0",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^23.0.0",

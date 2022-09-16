@@ -1,36 +1,47 @@
 import { usePagination, DOTS } from '../hooks/Pagination'
 import '../assets/Pagination.scss'
 
-export default ({ onPageChange, totalCount, pageSize, currentPage }) => {
+interface Props {
+  totalCount: number
+  pageSize: number
+  currentPage: number
+  onPageChange: () => void
+}
+
+export default function Pagination ({ onPageChange, totalCount, pageSize, currentPage }: Props) {
   const pages = usePagination({
-    totalCount: totalCount,
+    totalCount,
     pageSize,
     currentPage
   })
 
   const lastPage = totalCount / pageSize + (totalCount % pageSize ? 1 : 0)
 
-  if (pages) {
-    if (!pages.length) return null
+  if (pages != null) {
+    if (pages.length === 0) return null
     return (
       <nav className="pagination">
         <ul>
           <li>
-            {currentPage === 1 ? (
+            {currentPage === 1
+              ? (
               <span>
                 <i className="bi bi-chevron-double-left"></i>
               </span>
-            ) : (
+                )
+              : (
               <a href="#">
                 <i className="bi bi-chevron-double-left"></i>
               </a>
-            )}
+                )}
           </li>
           {pages.map((page, index) => (
             <li key={index}>
-              {page === DOTS || page === currentPage ? (
+              {page === DOTS || page === currentPage
+                ? (
                 <span>{page}</span>
-              ) : (
+                  )
+                : (
                 <a
                   href="#"
                   onClick={(e) => {
@@ -41,19 +52,21 @@ export default ({ onPageChange, totalCount, pageSize, currentPage }) => {
                 >
                   {page}
                 </a>
-              )}
+                  )}
             </li>
           ))}
           <li>
-            {currentPage === lastPage ? (
+            {currentPage === lastPage
+              ? (
               <span>
                 <i className="bi bi-chevron-double-right"></i>
               </span>
-            ) : (
+                )
+              : (
               <a href="#">
                 <i className="bi bi-chevron-double-right"></i>
               </a>
-            )}
+                )}
           </li>
         </ul>
       </nav>

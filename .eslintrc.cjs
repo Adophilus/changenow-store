@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   env: {
     browser: true,
@@ -6,10 +8,15 @@ module.exports = {
   extends: ['plugin:react/recommended', 'standard-with-typescript'],
   overrides: [],
   parserOptions: {
+    project: path.join(__dirname, 'tsconfig.json'),
     ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: './tsconfig.json'
+    sourceType: 'module'
   },
   plugins: ['react'],
-  rules: {}
+  rules: {},
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  }
 }

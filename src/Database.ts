@@ -10,15 +10,19 @@ interface IQueryOptions {
 }
 
 export default {
-  async getCategories() {
-    return client.Records.getFullList('categories', 100, { $autoCancel: false })
-  },
-  async getSubCategories() {
-    return client.Records.getFullList('subCategories', 100, {
+  async getCategories () {
+    return await client.records.getFullList('categories', 100, {
       $autoCancel: false
     })
   },
-  async getProducts(options: IQueryOptions) {
+  async getSubCategories () {
+    return await client.records.getFullList('subCategories', 100, {
+      $autoCancel: false
+    })
+  },
+  async getProducts (
+    options: IQueryOptions
+  ) {
     options = Object.assign(
       {
         page: 1,
@@ -27,7 +31,7 @@ export default {
       },
       options
     )
-    return client.Records.getList(
+    return await client.records.getList(
       'products',
       options.page,
       options.perPage,
