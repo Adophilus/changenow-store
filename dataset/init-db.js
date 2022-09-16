@@ -16,7 +16,7 @@ const deleteCollections = async () => {
   const collections = ['products', 'categories', 'subCategories']
   for (const collection of collections) {
     try {
-      await client.Collections.delete(collection)
+      await client.collections.delete(collection)
     } catch (err) {}
   }
 }
@@ -26,7 +26,7 @@ const createCollections = async () => {
   const collections = {}
 
   console.log('Creating categories collections...')
-  collections.categories = await client.Collections.create({
+  collections.categories = await client.collections.create({
     name: 'categories',
     schema: [
       {
@@ -40,7 +40,7 @@ const createCollections = async () => {
   })
 
   console.log('Creating subCategories collections...')
-  collections.subCategories = await client.Collections.create({
+  collections.subCategories = await client.collections.create({
     name: 'subCategories',
     schema: [
       {
@@ -54,7 +54,7 @@ const createCollections = async () => {
   })
 
   console.log('Creating products collections...')
-  collections.products = await client.Collections.create({
+  collections.products = await client.collections.create({
     name: 'products',
     schema: [
       {
@@ -124,7 +124,7 @@ const createCollections = async () => {
 const collectionToID = async (map, collectionName, collectionValue) => {
   if (Object.keys(map).includes(collectionValue)) return map[collectionValue]
 
-  const createdCollection = await client.Records.create(collectionName, {
+  const createdCollection = await client.records.create(collectionName, {
     name: collectionValue
   })
   map[collectionValue] = createdCollection.id
@@ -148,7 +148,7 @@ const importData = async () => {
       record.SubCategory
     )
 
-    await client.Records.create('products', {
+    await client.records.create('products', {
       sku: record.ProductId,
       title: record.ProductTitle,
       price: record.Price,
