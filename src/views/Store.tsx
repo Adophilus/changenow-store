@@ -1,5 +1,4 @@
-import PocketBase from 'pocketbase'
-import { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import db from '../Database'
 import Layout from '../components/layout/Layout'
@@ -7,29 +6,26 @@ import Sidebar from '../components/layout/Sidebar'
 import Pagination from '../components/Pagination'
 import ProductTab from '../components/ProductTab'
 import useFilter from '../hooks/Filter'
+import { ICategory, ISubCategory } from '../types'
 
-export default () => {
+export default function Store(): React.FC {
   const [products, setProducts] = useState(null)
   const [paginationData, setPaginationData] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
   const filter = useFilter(['category', 'subCategory'])
 
-  const onPageChange = (page) => {
+  const onPageChange = (page): void => {
     setSearchParams({ page })
   }
 
-  const fetchProducts = async () => {
-    const page = searchParams.get('page')
-      ? parseInt(searchParams.get('page'))
-      : 1
-    const _filter = filter.getAll() || []
+  const fetchProducts = async (): void => {
+    const page = parseInt(searchParams.get('page')) ?? 1
+    const _filter = filter.getAll()
     const productMeta = await db.getProducts({
       page,
       options: { filter: _filter.join('&&'), $autoCancel: false }
     })
 
-    let totalPages = productMeta.totalItems / productMeta.perPage
-    if (productMeta.totalItems % productMeta.perPage) totalPages += 1
     setPaginationData({
       totalCount: productMeta.totalItems,
       pageSize: productMeta.perPage,
@@ -51,12 +47,15 @@ export default () => {
       <div className="row">
         <div className="col-xs-0 col-lg-4">
           <Sidebar
-            onCategoryChange={(category, active) => {
+            onCategoryChange={(category: ICategory, active: boolean) => {
               const _filter = `category ~ '${category.id}'`
               if (active) return filter.add('category', _filter)
               return filter.remove('category', _filter)
             }}
-            onSubCategoryChange={(subCategory, active) => {
+            onSubCategoryChange={(
+              subCategory: ISubCategory,
+              active: boolean
+            ) => {
               const _filter = `subCategory ~ '${subCategory.id}'`
               if (active) return filter.add('subCategory', _filter)
               return filter.remove('subCategory', _filter)

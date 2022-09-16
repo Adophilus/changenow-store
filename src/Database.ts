@@ -1,7 +1,13 @@
-import config from './Config.ts'
 import PocketBase from 'pocketbase'
 
 export const client = new PocketBase(import.meta.env.VITE_POCKETBASE_URL)
+interface IQueryOptions {
+  page?: number
+  perPage?: number
+  options?: {
+    $autoCancel?: boolean
+  }
+}
 
 export default {
   async getCategories() {
@@ -12,7 +18,7 @@ export default {
       $autoCancel: false
     })
   },
-  async getProducts(options) {
+  async getProducts(options: IQueryOptions) {
     options = Object.assign(
       {
         page: 1,

@@ -7,7 +7,6 @@ import store from './features/Store'
 import CartView from './views/Cart'
 import StoreView from './views/Store'
 import StoreProductView from './views/Product'
-import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
