@@ -2,9 +2,11 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../../assets/Navbar.scss'
 import '../../assets/Cart.scss'
+import React from 'react'
+import { selectCart } from '../../features/Cart'
 
-export default () => {
-  const cart = useSelector((state) => state.cart)
+const Navbar: React.FC = () => {
+  const cart = useSelector(selectCart)
 
   return (
     <article className="navbar">
@@ -25,15 +27,17 @@ export default () => {
           <li>
             <Link
               className={`cart-indicator ${
-                Object.keys(cart.items).length ? 'not-empty' : ''
+                (Object.keys(cart.items).length > 0) ? 'not-empty' : ''
               }`}
               to="/cart"
             >
-              {Object.keys(cart.items).length ? (
+              {(Object.keys(cart.items).length > 0)
+                ? (
                 <i className="bi bi-bag-check"></i>
-              ) : (
+                  )
+                : (
                 <i className="bi bi-bag-dash"></i>
-              )}
+                  )}
             </Link>
           </li>
         </ul>
@@ -41,3 +45,5 @@ export default () => {
     </article>
   )
 }
+
+export default Navbar

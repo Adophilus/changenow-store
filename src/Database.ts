@@ -6,6 +6,7 @@ interface IQueryOptions {
   perPage?: number
   options?: {
     $autoCancel?: boolean
+    filter?: string
   }
 }
 

@@ -1,16 +1,22 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../assets/Sidebar.scss'
 import db from '../../Database'
+import { ICategory, ISubCategory } from '../../types/Collections'
 
-export default ({ onCategoryChange, onSubCategoryChange }) => {
-  const [categories, setCategories] = useState(null)
-  const [subCategories, setSubCategories] = useState(null)
+interface Props {
+  onCategoryChange: (category: ICategory, active: boolean) => any
+  onSubCategoryChange: (category: ISubCategory, active: boolean) => any
+}
+
+const Sidebar: React.FC<Props> = ({ onCategoryChange, onSubCategoryChange }) => {
+  const [categories, setCategories] = useState<ICategory[]>()
+  const [subCategories, setSubCategories] = useState<ISubCategory[]>()
 
   useEffect(() => {
     ;(async function () {
       setCategories(await db.getCategories())
       setSubCategories(await db.getSubCategories())
-    })()
+    })().catch(err => console.log(err))
   }, [])
 
   return (
@@ -18,7 +24,8 @@ export default ({ onCategoryChange, onSubCategoryChange }) => {
       <article className="scrollable">
         <section className="categories">
           <h5>Categories</h5>
-          {categories ? (
+          {(categories != null)
+            ? (
             <ul>
               {categories.map((category, index) => (
                 <li key={index}>
@@ -36,13 +43,15 @@ export default ({ onCategoryChange, onSubCategoryChange }) => {
                 </li>
               ))}
             </ul>
-          ) : (
+              )
+            : (
             <div aria-busy="true"></div>
-          )}
+              )}
         </section>
         <section className="categories">
           <h5>Sub-Categories</h5>
-          {subCategories ? (
+          {(subCategories != null)
+            ? (
             <ul>
               {subCategories.map((subCategory, index) => (
                 <li key={index}>
@@ -60,11 +69,14 @@ export default ({ onCategoryChange, onSubCategoryChange }) => {
                 </li>
               ))}
             </ul>
-          ) : (
+              )
+            : (
             <div aria-busy="true"></div>
-          )}
+              )}
         </section>
       </article>
     </aside>
   )
 }
+
+export default Sidebar

@@ -1,19 +1,25 @@
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import db from '../Database'
 import '../assets/Loader.scss'
 import '../assets/Product.scss'
 import '../assets/Cart.scss'
 import Layout from '../components/layout/Layout'
-import { add as addToCart } from '../features/Cart'
-import { remove as removeFromCart } from '../features/Cart'
-import { add as addToFavourites } from '../features/Favourites'
-import { remove as removeFromFavourites } from '../features/Favourites'
+import { IProduct } from '../types/Collections'
+import { useAppSelector } from '../hooks/Store'
+import { ICartState } from '../features/Cart'
 
-const CART_EMPTY = 1
+enum Errors {
+  CART_EMPTY = 'No item in cart!'
+}
 
-const ProductRow = ({ product, cart }) => {
+interface IState {
+  error: boolean | string
+  loading: boolean
+  products: IProduct[]
+}
+
+const ProductRow: React.FC<{ product: IProduct, cart: ICartState }> = ({ product, cart }) => {
   return (
     <div className="row product-row">
       <div className="col-lg-3">
@@ -39,16 +45,15 @@ const ProductRow = ({ product, cart }) => {
       </div>
       <div className="col-lg-3">- 1 +</div>
       <div className="col-lg-3">
-        <strong>{product.price * cart.items[product.id]}</strong>
+        <strong>{product.price as number * (cart.items.get(product.id) ?? 0) }</strong>
       </div>
     </div>
   )
 }
 
-export default () => {
-  const dispatch = useDispatch()
-  const { cart, favourite } = useSelector((state) => state)
-  const [state, setState] = useState({
+const Cart: React.FC = () => {
+  const { cart } = useAppSelector((state) => state)
+  const [state, setState] = useState<IState>({
     error: false,
     loading: true,
     products: []
@@ -56,46 +61,49 @@ export default () => {
 
   useEffect(() => {
     ;(async () => {
-      if (Object.keys(cart.items).length === 0)
-        return setState({ loading: false, error: CART_EMPTY })
+      if (Object.keys(cart.items).length === 0) {
+        return setState({ ...state, loading: false, error: Errors.CART_EMPTY })
+      }
 
       const filter = Object.keys(cart.items)
         .map((item) => `id = '${item}'`)
         .join('||')
 
-      try {
-        const productMeta = await db.getProducts({
-          options: { filter, $autoCancel: false }
-        })
-        return setState({
-          loading: false,
-          error: false,
-          products: productMeta.items
-        })
-      } catch (err) {
-        return setState({ loading: false, error: err.message })
-      }
-    })()
+      const productMeta = await db.getProducts({
+        options: { filter, $autoCancel: false }
+      })
+      return setState({
+        loading: false,
+        error: false,
+        products: productMeta.items
+      })
+    })().catch(err => setState({ ...state, loading: false, error: err.message }))
   }, [])
 
   return (
     <Layout>
-      {state.loading ? (
+      {state.loading
+        ? (
         <div className="loader-full-screen" aria-busy="true"></div>
-      ) : state.error === CART_EMPTY ? (
+          )
+        : state.error === Errors.CART_EMPTY
+          ? (
         <div className="loader-full-screen no-products-found">
-          <i className="icon bi bi-bag"></i> <h3>No item in cart!</h3>
+          <i className="icon bi bi-bag"></i> <h3>{state.error}</h3>
           <Link to="/store">
             <i className="bi bi-chevron-left"></i>
             Back to store
           </Link>
         </div>
-      ) : state.error ? (
+            )
+          : state.error !== false
+            ? (
         <div className="loader-full-screen no-products-found">
           <i className="bi bi-emoji-frown"></i>
           <h3>{state.error}</h3>
         </div>
-      ) : (
+              )
+            : (
         <article className="cart">
           <div className="row">
             <div className="row product-row-header">
@@ -110,7 +118,9 @@ export default () => {
             ))}
           </div>
         </article>
-      )}
+              )}
     </Layout>
   )
 }
+
+export default Cart

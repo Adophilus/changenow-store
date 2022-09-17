@@ -6,23 +6,27 @@ import Sidebar from '../components/layout/Sidebar'
 import Pagination from '../components/Pagination'
 import ProductTab from '../components/ProductTab'
 import useFilter from '../hooks/Filter'
-import { ICategory, ISubCategory } from '../types'
+import { ISubCategory, ICategory, IProduct } from '../types/Collections'
 
-export default function Store(): React.FC {
-  const [products, setProducts] = useState(null)
-  const [paginationData, setPaginationData] = useState({})
+const Store: React.FC = () => {
+  const [products, setProducts] = useState<IProduct[]>()
+  const [paginationData, setPaginationData] = useState({
+    totalCount: 1,
+    pageSize: 1,
+    currentPage: 1
+  })
   const [searchParams, setSearchParams] = useSearchParams()
   const filter = useFilter(['category', 'subCategory'])
 
-  const onPageChange = (page): void => {
-    setSearchParams({ page })
+  const onPageChange = (page: string | number): void => {
+    setSearchParams({ page: page.toString() })
   }
 
-  const fetchProducts = async (): void => {
-    const page = parseInt(searchParams.get('page')) ?? 1
+  const fetchProducts = async (): Promise<void> => {
+    const page = searchParams.get('page') ?? '1'
     const _filter = filter.getAll()
     const productMeta = await db.getProducts({
-      page,
+      page: parseInt(page),
       options: { filter: _filter.join('&&'), $autoCancel: false }
     })
 
@@ -35,11 +39,11 @@ export default function Store(): React.FC {
   }
 
   useEffect(() => {
-    fetchProducts()
+    fetchProducts().catch(err => console.log(err))
   }, [searchParams, filter.state])
 
   useEffect(() => {
-    fetchProducts()
+    fetchProducts().catch(err => console.log(err))
   }, [])
 
   return (
@@ -63,22 +67,26 @@ export default function Store(): React.FC {
           />
         </div>
         <div className="row col-lg-8 justify-content-center">
-          {products ? (
-            products.length ? (
-              products.map((product) => (
+          {(products != null)
+            ? (
+                (products.length > 0)
+                  ? (
+                      products.map((product) => (
                 <div key={product.id} className="col-xs-12 col-md-6">
                   <ProductTab product={product} />
                 </div>
-              ))
-            ) : (
+                      ))
+                    )
+                  : (
               <div className="no-products-found">
                 <i className="icon bi bi-emoji-frown"></i>
                 <h3>No products found!</h3>
               </div>
-            )
-          ) : (
+                    )
+              )
+            : (
             <div aria-busy="true"></div>
-          )}
+              )}
           <div className="row">
             <Pagination {...paginationData} onPageChange={onPageChange} />
           </div>
@@ -87,3 +95,5 @@ export default function Store(): React.FC {
     </Layout>
   )
 }
+
+export default Store

@@ -1,34 +1,45 @@
 import { useEffect, useState } from 'react'
 
-export default (states) => {
-  const [state, setState] = useState({})
+interface ReturnValue {
+  state: Map<string, string[]>
+  get: (key: string) => (string[] | undefined)
+  getAll: () => string[]
+  add: (key: string, value: string) => void
+  remove: (key: string, value: string) => void
+}
+
+export default (filters: string[]): ReturnValue => {
+  const [state, setState] = useState(new Map<string, string[]>())
 
   useEffect(() => {
-    const newState = {}
-    for (const s of states) {
-      newState[s] = []
+    const newState = new Map<string, string[]>()
+    for (const filter of filters) {
+      newState.set(filter, [])
     }
     setState(newState)
   }, [])
 
   return {
     state,
-    get(key) {
-      return state[key]
+    get (key: string) {
+      return state.get(key)
     },
-    getAll() {
-      let filters = []
-      for (const key in state) {
-        filters = filters.concat(state[key])
+    getAll () {
+      const filters: string[] = []
+      for (const key of state.keys()) {
+        filters.concat(state.get(key) ?? [])
       }
       return filters
     },
-    add(key, value) {
-      if (!state[key].find((v) => v === value))
-        setState({ ...state, [key]: state[key].concat(value) })
+    add (key: string, value: string) {
+      const newState = new Map(state)
+      newState.set(key, state.get(key)?.concat(value) ?? [])
+      setState(newState)
     },
-    remove(key, value) {
-      setState({ ...state, [key]: state[key].filter((v) => v !== value) })
+    remove (key: string, value: string) {
+      const newState = new Map(state)
+      newState.set(key, state.get(key)?.filter(_value => _value !== value) ?? [])
+      setState(newState)
     }
   }
 }

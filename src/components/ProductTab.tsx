@@ -1,28 +1,28 @@
 import { Link } from 'react-router-dom'
 import '../assets/Product.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { useDispatch } from 'react-redux'
 import { add as addToCart } from '../features/Cart'
 import React from 'react'
 import { IProduct } from '../types/Collections'
+import { useAppDispatch } from '../hooks/Store'
 
 interface Props {
   product: IProduct
 }
 
 const ProductTab: React.FC<Props> = ({ product }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const addItemToFavourites = (): void => {}
   const addItemToCart = (): void => {
-    dispatch(addToCart({ product: { id: product.id }, quantity: 1 }))
+    dispatch(addToCart({ product: product.id, quantity: 1 }))
   }
-
+  const productTabStyle: React.CSSProperties = { ['--background' as any]: `url('${product.image}')` }
   return (
     <article className="product-tab">
       <div
         className="cover-img"
-        style={{ '--background': `url('${product.image}')` }}
+        style={productTabStyle}
       >
         <div className="cover">
           <Link
