@@ -32,29 +32,33 @@ export default class EStoreServer extends Server {
     this.errorPages()
   }
 
-  public setupConfig () {
-    this.pocketBaseClient.admins.authViaEmail(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASS)
+  public setupConfig (): void {
+    this.pocketBaseClient.admins.authViaEmail(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASS).catch(err => this.logger.error(err))
   }
 
-  public setupMiddleWare () {
+  public setupMiddleWare (): void {
     this.app.use(cors())
     this.app.use(bodyParser.json())
     this.app.use(bodyParser.urlencoded({ extended: true }))
     if (process.env.NODE_ENV === 'development') {
       this.logger.info('Configuring dev environment...')
-      this.app.get(['/', '/store'], (req, res) => {
-        this.proxy.web(req, res)
+      this.app.all('*', (req, res, next) => {
+        if (req.originalUrl.startsWith('/api')) {
+          next()
+        } else {
+          this.proxy.web(req, res)
+        }
       })
     }
   }
 
-  public start (port: number) {
+  public start (port: number): void {
     this.app.listen(port, () => {
       this.logger.info(`Server started on port ${port}`)
     })
   }
 
-  public errorPages () {
+  public errorPages (): void {
     this.app.use((_, res) =>
       res.status(404).json({ error: 'Route not found!' })
     )
