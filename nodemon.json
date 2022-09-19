@@ -1,0 +1,5 @@
+{
+  "watch": ["src/api"],
+  "ext": "ts",
+  "exec": "tsc --project src/api/tsconfig.json && node build/api/server"
+}
