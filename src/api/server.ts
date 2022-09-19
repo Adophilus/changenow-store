@@ -1,5 +1,7 @@
 import { Server } from '@overnightjs/core'
 import CategoriesAPI from './controllers/Categories.js'
+import SubCategoriesAPI from './controllers/SubCategories.js'
+import ProductsAPI from './controllers/Products.js'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
@@ -24,6 +26,9 @@ export default class EStoreServer extends Server {
 
     const props = { logger: this.logger, pocketBaseClient: this.pocketBaseClient }
     super.addControllers([new CategoriesAPI(props)])
+    super.addControllers([new SubCategoriesAPI(props)])
+    super.addControllers([new ProductsAPI(props)])
+
     this.errorPages()
   }
 

@@ -4,25 +4,25 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import pocketbase from 'pocketbase'
 import { Logger } from 'tslog'
 
-@Controller('api/categories')
+@Controller('api/sub-categories')
 export default class {
   private readonly logger: Logger
   private readonly pocketBaseClient: pocketbase
 
   constructor ({ pocketBaseClient, logger }) {
-    this.logger = logger.getChildLogger({ name: 'CategoriesAPI' })
+    this.logger = logger.getChildLogger({ name: 'SubCategoriesAPI' })
     this.pocketBaseClient = pocketBaseClient
   }
 
   @Get()
-  private async getCategories (req: Request, res: Response) {
+  private async getSubCategories (req: Request, res: Response) {
     try {
-      const categories = await this.pocketBaseClient.records.getFullList(
-        'categories',
+      const subCategories = await this.pocketBaseClient.records.getFullList(
+        'subCategories',
         100,
         { $autoCancel: false }
       )
-      return res.status(StatusCodes.OK).send({ message: categories })
+      return res.status(StatusCodes.OK).send({ message: subCategories })
     } catch (err) {
       this.logger.error(err)
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
@@ -30,15 +30,15 @@ export default class {
   }
 
   @Get(':id')
-  private async getCategoryById (req: Request, res: Response) {
-    const { categoryId } = req.params
+  private async getSubCategoryById (req: Request, res: Response) {
+    const { subCategoryId } = req.params
     try {
-      const category = await this.pocketBaseClient.records.getOne(
-        'categories',
-        categoryId,
+      const subCategory = await this.pocketBaseClient.records.getOne(
+        'subCategories',
+        subCategoryId,
         { $autoCancel: false }
       )
-      return res.status(StatusCodes.OK).send({ message: category })
+      return res.status(StatusCodes.OK).send({ message: subCategory })
     } catch (err) {
       this.logger.error(err)
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
