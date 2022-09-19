@@ -1,64 +1,55 @@
 import { Server } from '@overnightjs/core'
+import bodyParser from 'body-parser'
 import cors from 'cors'
-import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv'
+import proxy from 'express-http-proxy'
 import PocketBase from 'pocketbase'
-import Proxy from 'express-http-proxy'
 import { Logger } from 'tslog'
 
-export default class EStoreServer extends Server {
-  private readonly SERVER_START_MSG = 'Server running on port: '
-  private logger
-  private pocketBase
+dotenv.config()
 
-  constructor() {
+export default class EStoreServer extends Server {
+  private readonly logger = new Logger({ name: 'EStore' })
+  private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
+
+  constructor () {
     super()
     this.setupConfig()
     this.setupMiddleWare()
 
-    const props = { logger: this.logger, pocketBase: this.pocketBase, app: this.app }
-    super.addControllers([
-      new ProductAnalyticsApiController(props),
-      new ProductShareApiController(props),
-      new ProductRatingApiController(props),
-      new SaleController(props)
-    ])
+    // const props = { logger: this.logger, pocketBase: this.pocketBase, app: this.app }
+    // super.addControllers([])
     this.errorPages()
   }
 
-  public setupConfig() {
-    this.logger = new Logger({ name: 'EStore' })
-    this.pocketBase = new PocketBase(process.env.POCKETBASE_URL)
-    const adminCreds = process.env.POCKETBASE_ADMIN.split(':')
-
-    this.pocketBase.Admins.authViaEmail(adminCreds[0], adminCreds[1])
+  public setupConfig () {
+    this.pocketBaseClient.admins.authViaEmail(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASS)
   }
 
-  public setupMiddleWare() {
-    this.app.set('views', 'src/api/views')
-    this.app.set('view engine', 'pug')
+  public setupMiddleWare () {
     this.app.use(cors())
-this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({extended: true}));
-    this.app.use((req, res, next) => {
-      res.locals.pocketBase = this.pocketBase
-      next()
-    })
+    this.app.use(bodyParser.json())
+    this.app.use(bodyParser.urlencoded({ extended: true }))
+    if (process.env.NODE_ENV === 'development') {
+      this.logger.info('Configuring dev environment...')
+      this.app.use(
+        '/',
+        proxy(process.env.DEV_SERVER_URL)
+      )
+    }
   }
 
-  public start(port: number) {
+  public start (port: number) {
     this.app.listen(port, () => {
-      this.logger.info(this.SERVER_START_MSG + String(port))
+      this.logger.info(`Server started on port ${port}`)
     })
   }
 
-  public errorPages() {
-    this.app.use((req, res) =>
+  public errorPages () {
+    this.app.use((_, res) =>
       res.status(404).json({ error: 'Route not found!' })
     )
   }
 }
 
-dotenv.config()
-
-new EStoreServer().start(parseInt(process.env.SERVER_PORT))
+new EStoreServer().start(parseInt(process.env.BACKEND_SERVER_PORT))

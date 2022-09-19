@@ -5,7 +5,10 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: ['plugin:react/recommended', 'standard-with-typescript'],
+  extends: [
+    'plugin:react/recommended',
+    'standard-with-typescript'
+  ],
   overrides: [],
   parserOptions: {
     project: path.join(__dirname, 'tsconfig.json'),
@@ -13,7 +16,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react'],
-  rules: {},
+  rules: {
+  },
   settings: {
     react: {
       version: 'detect'

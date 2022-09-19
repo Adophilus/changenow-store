@@ -7,7 +7,7 @@
   "trailingComma": "none",
   "bracketSpacing": true,
   "importOrderParserPlugins": ["typescript", "decorators-legacy"],
-  "plugins": ["@trivago/prettier-plugin-sort-imports", "@prettier/plugin-pug"],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrderSeparation": true, 
   "importOrderSortSpecifiers": true
 }
