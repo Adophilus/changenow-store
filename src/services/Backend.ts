@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IListResult, ICategory, ISubCategory, IProduct } from '../types/Collections'
+import { IListResult, ICategory, ISubCategory } from '../types/Collections'
 
 interface IProductQueryParams { page?: number, perPage?: number, filter?: string }
 
@@ -21,7 +21,10 @@ export const backendApi = createApi({
     }),
     getProducts: builder.query<IListResult, IProductQueryParams>({
       query (params: IProductQueryParams) {
-        const _query = new URLSearchParams(params)
+        const _query = new URLSearchParams()
+        if (params.page != null) { _query.append('page', params.page.toString()) }
+        if (params.perPage != null) { _query.append('perPage', params.perPage.toString()) }
+        if (params.filter != null) { _query.append('filter', params.filter) }
         return {
           url: `products?${_query.toString()}`
         }
