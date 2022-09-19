@@ -7,17 +7,13 @@ import cors from 'cors'
 import * as dotenv from 'dotenv'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
-import httpProxy from 'http-proxy'
+import morgan from 'morgan'
 
 dotenv.config()
 
 export default class EStoreServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
   private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
-  private readonly proxy = httpProxy.createProxyServer({
-    target: process.env.DEV_SERVER_URL,
-    ws: true
-  })
 
   constructor () {
     super()
@@ -38,18 +34,9 @@ export default class EStoreServer extends Server {
 
   public setupMiddleWare (): void {
     this.app.use(cors())
+    this.app.use(morgan('tiny'))
     this.app.use(bodyParser.json())
     this.app.use(bodyParser.urlencoded({ extended: true }))
-    if (process.env.NODE_ENV === 'development') {
-      this.logger.info('Configuring dev environment...')
-      this.app.all('*', (req, res, next) => {
-        if (req.originalUrl.startsWith('/api')) {
-          next()
-        } else {
-          this.proxy.web(req, res)
-        }
-      })
-    }
   }
 
   public start (port: number): void {

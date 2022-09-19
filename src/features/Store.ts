@@ -10,7 +10,8 @@ export const store = configureStore({
     [backendApi.reducerPath]: backendApi.reducer
   },
   middleware (getDefaultMiddleware) {
-    return getDefaultMiddleware().concat(backendApi.middleware)
+    return getDefaultMiddleware({ serializableCheck: false }
+    ).concat(backendApi.middleware)
   }
 })
 

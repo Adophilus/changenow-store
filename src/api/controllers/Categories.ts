@@ -31,7 +31,7 @@ export default class {
 
   @Get(':id')
   private async getCategoryById (req: Request, res: Response) {
-    const { categoryId } = req.params
+    const { id: categoryId } = req.params
     try {
       const category = await this.pocketBaseClient.records.getOne(
         'categories',
