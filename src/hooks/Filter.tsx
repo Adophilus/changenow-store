@@ -25,9 +25,9 @@ export default (filters: string[]): ReturnValue => {
       return state.get(key)
     },
     getAll () {
-      const filters: string[] = []
+      let filters: string[] = []
       for (const key of state.keys()) {
-        filters.concat(state.get(key) ?? [])
+        filters = filters.concat(state.get(key) ?? [])
       }
       return filters
     },

@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../../assets/Sidebar.scss'
-import db from '../../Database'
-import { useGetAllCategoriesQuery } from '../../services/Backend'
+import {
+  useGetAllCategoriesQuery,
+  useGetAllSubCategoriesQuery
+} from '../../services/Backend'
 import { ICategory, ISubCategory } from '../../types/Collections'
 
 interface Props {
@@ -9,34 +11,37 @@ interface Props {
   onSubCategoryChange: (category: ISubCategory, active: boolean) => any
 }
 
-const Sidebar: React.FC<Props> = ({ onCategoryChange, onSubCategoryChange }) => {
-  // const [categories, setCategories] = useState<ICategory[]>()
-  const [subCategories, setSubCategories] = useState<ISubCategory[]>()
-  const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useGetAllCategoriesQuery()
-
-  useEffect(() => {
-    ;(async function () {
-      // setCategories(await db.getCategories())
-      setSubCategories(await db.getSubCategories())
-    })().catch(err => console.log(err))
-  }, [])
+const Sidebar: React.FC<Props> = ({
+  onCategoryChange,
+  onSubCategoryChange
+}) => {
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: categoriesLoading
+  } = useGetAllCategoriesQuery(null)
+  const {
+    data: subCategories,
+    error: subCategoriesError,
+    isLoading: subCategoriesLoading
+  } = useGetAllSubCategoriesQuery(null)
 
   return (
     <aside className="sidebar">
       <article className="scrollable">
         <section className="categories">
           <h5>Categories</h5>
-          {(categoriesLoading)
+          {categoriesLoading
             ? (
             <div aria-busy="true"></div>
               )
-            : (categoriesError != null)
-                ? (
-              <div>Couldn't fetch categories!</div>)
-                : (
-
+            : categoriesError != null
+              ? (
+            <div>Couldn&apos;t fetch categories!</div>
+                )
+              : (
             <ul>
-              {categories.map((category, index) => (
+              {categories?.map((category: ICategory, index: number) => (
                 <li key={index}>
                   <input
                     type="checkbox"
@@ -52,15 +57,21 @@ const Sidebar: React.FC<Props> = ({ onCategoryChange, onSubCategoryChange }) => 
                 </li>
               ))}
             </ul>
-                  )
-              }
+                )}
         </section>
         <section className="categories">
           <h5>Sub-Categories</h5>
-          {(subCategories != null)
+          {subCategoriesLoading
             ? (
+            <div aria-busy="true"></div>
+              )
+            : subCategoriesError != null
+              ? (
+            <div>Couldn&apos;t fetch sub categories!</div>
+                )
+              : (
             <ul>
-              {subCategories.map((subCategory, index) => (
+              {subCategories?.map((subCategory: ISubCategory, index: number) => (
                 <li key={index}>
                   <input
                     id={`subCategoryCheck${index}`}
@@ -76,10 +87,7 @@ const Sidebar: React.FC<Props> = ({ onCategoryChange, onSubCategoryChange }) => 
                 </li>
               ))}
             </ul>
-              )
-            : (
-            <div aria-busy="true"></div>
-              )}
+                )}
         </section>
       </article>
     </aside>

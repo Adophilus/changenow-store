@@ -15,19 +15,20 @@ export default class {
   }
 
   @Get()
-  private async getProducts (req: Request, res: Response) {
-    const { page, perPage } = req.params
+  private async getProducts (req: Request, res: Response): Promise<void> {
+    const { page, perPage, filter } = req.query
+
     try {
       const products = await this.pocketBaseClient.records.getList(
         'products',
-        parseInt(page ?? '1'),
-        parseInt(perPage ?? '10'),
-        { $autoCancel: false }
+        parseInt(String(page) ?? '1'),
+        parseInt(String(perPage) ?? '10'),
+        { $autoCancel: false, filter }
       )
-      return res.status(StatusCodes.OK).send({ message: products })
+      res.status(StatusCodes.OK).send({ message: products })
     } catch (err) {
       this.logger.error(err)
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
     }
   }
 
