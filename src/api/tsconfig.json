@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "target": "esnext",
+    "target": "ESNext",
     "outDir": "../../build/api"
   }
 }
