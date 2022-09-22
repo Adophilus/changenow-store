@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "build/api/main.js",
   "scripts": {
     "db:start": "env $(cat .env | xargs) bin/db-start",
     "db:init": "node dataset/init-db.js",

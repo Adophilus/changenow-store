@@ -4,14 +4,11 @@ import SubCategoriesAPI from './controllers/SubCategories.js'
 import ProductsAPI from './controllers/Products.js'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import * as dotenv from 'dotenv'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
 import morgan from 'morgan'
 
-dotenv.config()
-
-export default class EStoreServer extends Server {
+export default class extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
   private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
 
@@ -51,5 +48,3 @@ export default class EStoreServer extends Server {
     )
   }
 }
-
-new EStoreServer().start(parseInt(process.env.BACKEND_SERVER_PORT))
