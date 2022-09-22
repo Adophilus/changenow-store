@@ -48,3 +48,5 @@ export default class extends Server {
     )
   }
 }
+
+export const { app } = new Server()
