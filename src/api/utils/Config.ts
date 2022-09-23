@@ -24,10 +24,9 @@ const processEnv = (env: IEnvVariables | undefined): IEnvVariables | undefined =
   return env
 }
 
-export const getEnv = (script?: string): IEnvVariables | undefined => {
+export const getEnv = (script: string, envPath: string = './'): IEnvVariables | undefined => {
   const CURRENT_SCRIPT = script ?? fileURLToPath(import.meta.url)
-  console.log(CURRENT_SCRIPT)
   const CURRENT_SCRIPT_DIR = path.dirname(CURRENT_SCRIPT)
-  const ENV_DIR = path.join(CURRENT_SCRIPT_DIR, '../../')
+  const ENV_DIR = path.join(CURRENT_SCRIPT_DIR, envPath)
   return processEnv(dotenv.config({ path: path.join(ENV_DIR, '.env') }).parsed)
 }

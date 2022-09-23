@@ -10,7 +10,7 @@ import morgan from 'morgan'
 import { getEnv } from './utils/Config.js'
 import { fileURLToPath } from 'url'
 
-const ENV = getEnv(fileURLToPath(import.meta.url))
+const ENV = getEnv(fileURLToPath(import.meta.url), '../../')
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
