@@ -14,7 +14,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "backend:dev": "nodemon",
-    "workflow": "bin/workflow.sh"
+    "local:workflow": "bin/workflow.sh",
+    "setup": "pnpm db:init",
+    "start": "pnpm db:start"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.6",
