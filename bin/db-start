@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+bin/pocketbase serve --http $POCKETBASE_HOST:$POCKETBASE_PORT --dir $POCKETBASE_DIR --encryptionEnv=POCKETBASE_ENCRYPTION_KEY
