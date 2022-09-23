@@ -6,7 +6,8 @@
   "main": "build/api/Server.js",
   "scripts": {
     "db:start": "env $(cat .env | xargs) bin/db-start",
-    "db:build": "tsc --project ./dataset/tsconfig.json && node build/dataset/InitializeDatabase.js",
+    "db:build": "tsc --project ./dataset/tsconfig.json",
+    "db:init": "node build/dataset/InitializeDatabase.js",
     "format:watch": "cd .scripts && pnpm format:watch ..",
     "lint:watch": "cd .scripts && pnpm lint:watch ..",
     "format:lint:watch": "cd .scripts && pnpm format:lint:watch ..",
