@@ -17,7 +17,6 @@
     "backend:dev": "nodemon",
     "backend:build": "tsc --project src/api/tsconfig.json",
     "local:workflow": "bin/workflow.sh",
-    "setup": "pnpm db:init",
     "start": "pnpm db:start"
   },
   "dependencies": {
