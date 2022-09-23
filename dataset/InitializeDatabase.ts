@@ -1,16 +1,37 @@
-import PocketBase from 'pocketbase'
-import * as dotenv from 'dotenv'
-import Database from './database.json' assert { type: 'json' }
+import PocketBase, { Collection, Record } from 'pocketbase'
+import { readFile } from 'fs/promises'
+import path from 'path'
+import {getEnv} from '../src/utils/Env.js'
+import { fileURLToPath } from 'url'
 
-dotenv.config()
+const {ENV, CURRENT_SCRIPT_DIR, CURRENT_SCRIPT} = getEnv(fileURLToPath(import.meta.url), '../../')
 
-const client = new PocketBase(process.env.POCKETBASE_URL)
-await client.Admins.authViaEmail(
-  process.env.POCKETBASE_ADMIN_EMAIL,
-  process.env.POCKETBASE_ADMIN_PASS
-)
+interface IProductRecord {
+  ProductId: number
+  ProductTitle: string
+  Price: number
+  Category: string
+  SubCategory: string
+  ProductType: string
+  Gender: string
+  Colour: string
+  Usage: string
+  ImageURL: string
+}
 
-const deleteCollections = async () => {
+type IDatabase = IProductRecord[]
+
+const configure = async () => {
+  const client = new PocketBase(ENV.POCKETBASE_URL)
+  await client.admins.authViaEmail(
+    ENV.POCKETBASE_ADMIN_EMAIL,
+    ENV.POCKETBASE_ADMIN_PASS
+  )
+  const database:IDatabase = JSON.parse(await readFile(path.resolve(path.join(CURRENT_SCRIPT_DIR, '../../data/database.json')), { encoding: 'utf8'}))
+  return { client, database }
+}
+
+const deleteCollections = async ({ client } : { client: PocketBase}) => {
   console.log('Deleting collections...')
 
   const collections = ['products', 'categories', 'subCategories']
@@ -21,9 +42,9 @@ const deleteCollections = async () => {
   }
 }
 
-const createCollections = async () => {
+const createCollections = async ({ client } : { client: PocketBase}) => {
   console.log('Creating collections...')
-  const collections = {}
+  const collections : { [key:string]: Collection } = {}
 
   console.log('Creating categories collections...')
   collections.categories = await client.collections.create({
@@ -121,7 +142,7 @@ const createCollections = async () => {
   })
 }
 
-const collectionToID = async (map, collectionName, collectionValue) => {
+const collectionToID = async (map: { [key:string]: string }, collectionName:string, collectionValue:string, { client } : { client: PocketBase }) => {
   if (Object.keys(map).includes(collectionValue)) return map[collectionValue]
 
   const createdCollection = await client.records.create(collectionName, {
@@ -131,21 +152,23 @@ const collectionToID = async (map, collectionName, collectionValue) => {
   return map[collectionValue]
 }
 
-const importData = async () => {
+const importData = async ({ client, database } : { client: PocketBase, database: IDatabase}) => {
   console.log('Importing data...')
-  const categories = {}
-  const subCategories = {}
+  const categories: { [key:string]: string } = {}
+  const subCategories: { [key:string]:string } = {}
 
-  for (let record of Database) {
+  for (let record of database) {
     let category = await collectionToID(
       categories,
       'categories',
-      record.Category
+      record.Category,
+      { client }
     )
     let subCategory = await collectionToID(
       subCategories,
       'subCategories',
-      record.SubCategory
+      record.SubCategory,
+      { client }
     )
 
     await client.records.create('products', {
@@ -164,9 +187,10 @@ const importData = async () => {
 }
 
 const run = async () => {
-  await deleteCollections()
-  await createCollections()
-  await importData()
+  const { client, database } = await configure()
+  await deleteCollections({ client })
+  await createCollections({ client })
+  await importData({ client, database })
 
   console.log('all done!')
 }

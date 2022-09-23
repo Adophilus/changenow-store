@@ -7,10 +7,10 @@ import cors from 'cors'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
 import morgan from 'morgan'
-import { getEnv } from './utils/Config.js'
+import { getEnv } from '../utils/Env.js'
 import { fileURLToPath } from 'url'
 
-const ENV = getEnv(fileURLToPath(import.meta.url), '../../')
+const { ENV } = getEnv(fileURLToPath(import.meta.url), '../../')
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
