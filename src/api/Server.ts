@@ -7,10 +7,14 @@ import cors from 'cors'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
 import morgan from 'morgan'
+import { getEnv } from './utils/Config.js'
+import { fileURLToPath } from 'url'
+
+const ENV = getEnv(fileURLToPath(import.meta.url))
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
-  private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
+  private readonly pocketBaseClient = new PocketBase(ENV.POCKETBASE_URL)
 
   constructor () {
     super()
@@ -18,12 +22,12 @@ export default class AppServer extends Server {
     this.setupMiddleWare()
 
     const props = { logger: this.logger, pocketBaseClient: this.pocketBaseClient }
-    super.addControllers([new CategoriesAPI(props),new SubCategoriesAPI(props), new ProductsAPI(props)])
+    super.addControllers([new CategoriesAPI(props), new SubCategoriesAPI(props), new ProductsAPI(props)])
     this.errorPages()
   }
 
   public setupConfig (): void {
-    this.pocketBaseClient.admins.authViaEmail(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASS).catch(err => this.logger.error(err))
+    this.pocketBaseClient.admins.authViaEmail(ENV.POCKETBASE_ADMIN_EMAIL, ENV.POCKETBASE_ADMIN_PASS).catch(err => this.logger.error(err))
   }
 
   public setupMiddleWare (): void {
