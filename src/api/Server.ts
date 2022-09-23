@@ -8,7 +8,7 @@ import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
 import morgan from 'morgan'
 
-export default class extends Server {
+export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
   private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
 
@@ -18,10 +18,7 @@ export default class extends Server {
     this.setupMiddleWare()
 
     const props = { logger: this.logger, pocketBaseClient: this.pocketBaseClient }
-    super.addControllers([new CategoriesAPI(props)])
-    super.addControllers([new SubCategoriesAPI(props)])
-    super.addControllers([new ProductsAPI(props)])
-
+    super.addControllers([new CategoriesAPI(props),new SubCategoriesAPI(props), new ProductsAPI(props)])
     this.errorPages()
   }
 
@@ -49,4 +46,4 @@ export default class extends Server {
   }
 }
 
-export const { app } = new Server()
+export const { app } = new AppServer()
