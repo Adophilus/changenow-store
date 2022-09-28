@@ -17,7 +17,6 @@
     "backend:dev": "nodemon",
     "backend:build": "tsc --project src/api/tsconfig.json",
     "local:workflow": "bin/workflow.sh",
-    "start": "pnpm db:start"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.6",
