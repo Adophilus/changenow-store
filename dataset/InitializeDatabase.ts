@@ -1,6 +1,5 @@
 import PocketBase, { Collection, Record } from 'pocketbase'
 import { readFile } from 'fs/promises'
-import path from 'path'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -27,7 +26,7 @@ const configure = async () => {
     process.env.POCKETBASE_ADMIN_EMAIL ?? '',
     process.env.POCKETBASE_ADMIN_PASS ?? ''
   )
-  const database:IDatabase = JSON.parse(DB_PATH)
+  const database:IDatabase = JSON.parse(await readFile(DB_PATH, { encoding: 'utf8' }))
   return { client, database }
 }
 
