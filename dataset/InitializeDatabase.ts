@@ -1,10 +1,10 @@
 import PocketBase, { Collection, Record } from 'pocketbase'
 import { readFile } from 'fs/promises'
 import path from 'path'
-import {getEnv} from '../src/utils/Env.js'
-import { fileURLToPath } from 'url'
+import * as dotenv from 'dotenv'
 
-const {ENV, CURRENT_SCRIPT_DIR, CURRENT_SCRIPT} = getEnv(fileURLToPath(import.meta.url), '../../')
+dotenv.config()
+const DB_PATH = './data/database.json'
 
 interface IProductRecord {
   ProductId: number
@@ -22,12 +22,12 @@ interface IProductRecord {
 type IDatabase = IProductRecord[]
 
 const configure = async () => {
-  const client = new PocketBase(ENV.POCKETBASE_URL)
+  const client = new PocketBase(process.env.POCKETBASE_URL)
   await client.admins.authViaEmail(
-    ENV.POCKETBASE_ADMIN_EMAIL,
-    ENV.POCKETBASE_ADMIN_PASS
+    process.env.POCKETBASE_ADMIN_EMAIL ?? '',
+    process.env.POCKETBASE_ADMIN_PASS ?? ''
   )
-  const database:IDatabase = JSON.parse(await readFile(path.resolve(path.join(CURRENT_SCRIPT_DIR, '../../data/database.json')), { encoding: 'utf8'}))
+  const database:IDatabase = JSON.parse(DB_PATH)
   return { client, database }
 }
 

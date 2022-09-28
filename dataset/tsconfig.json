@@ -8,6 +8,6 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ESNext",
-    "outDir": "../build"
+    "outDir": "../build/dataset"
   }
 }
