@@ -1,8 +1,7 @@
-import { fileURLToPath } from 'url'
 import Server from './Server.js'
-import { getEnv } from '../utils/Env.js'
+import * as dotenv from 'dotenv'
 
-const { ENV } = getEnv(fileURLToPath(import.meta.url), '../../')
+dotenv.config()
 
 const server = new Server()
-server.start(parseInt(ENV.BACKEND_SERVER_PORT))
+server.start(parseInt(process.env.BACKEND_SERVER_PORT))
