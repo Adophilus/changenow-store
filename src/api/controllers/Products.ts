@@ -36,9 +36,15 @@ export default class {
   private async getProductByUniqueIdentifier (req: Request, res: Response) {
     const { uniqueId } = req.params
     let filter:string
-    for (const key of Object.keys(req.query)) {
-      filter = `${key} = '${uniqueId}'`
-      break;
+    switch (req.query.type) {
+      case 'id':
+        filter = `id = '${uniqueId}'`
+        break
+      case 'sku':
+        filter = `sku = ${uniqueId}`
+        break
+      default:
+        return res.status(StatusCodes.BAD_REQUEST).send({ error: "Invalid 'type' specified" })
     }
 
     try {
