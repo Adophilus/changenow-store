@@ -22,6 +22,7 @@ export interface IProduct extends Record {
   price: number
   category: string
   subCategory: string
+  analytics: string
   type: string
   gender: string
   color: string

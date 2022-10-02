@@ -33,14 +33,25 @@ export default class {
   }
 
   @Get(':id')
-  private async getProductById (req: Request, res: Response) {
-    const { productId } = req.params
+  private async getProductByUniqueIdentifier (req: Request, res: Response) {
+    const filters = []
+
+    for (const key of Object.keys(req.query)) {
+      filters.push(`${key} = '${req.query[key]}'`)
+    }
+
     try {
-      const product = await this.pocketBaseClient.records.getOne(
+      const products = await this.pocketBaseClient.records.getList(
         'products',
-        productId,
-        { $autoCancel: false, expand: 'analytics' }
+        1,
+        1,
+        { $autoCancel: false, expand: 'analytics', filter: filters.join('&&') }
       )
+
+      if (products.items.length !== 1)
+        return res.status(StatusCodes.NOT_FOUND).send({ error: ReasonPhrases.NOT_FOUND })
+      
+      const product = products.items[0]
 
       await this.pocketBaseClient.records.update('productsAnalytics', product.analytics, {
         views: product['@expand'].analytics.views + 1

@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IListResult, ICategory, ISubCategory } from '../types/Collections'
+import { IListResult, ICategory, ISubCategory, IProduct } from '../types/Collections'
 
-interface IProductQueryParams { page?: number, perPage?: number, filter?: string }
+interface IProductsQueryParams { page?: number, perPage?: number, filter?: string }
+interface IProductQueryParams { id?: string, sku?: number }
 
 export const backendApi = createApi({
   reducerPath: 'backendApi',
@@ -19,8 +20,18 @@ export const backendApi = createApi({
         return response.message
       }
     }),
-    getProducts: builder.query<IListResult, IProductQueryParams>({
-      query (params: IProductQueryParams) {
+    getProduct: builder.query<IProduct, IProductQueryParams>({
+      query (params:IProductQueryParams) {
+        const _query = new URLSearchParams()
+        if (params.id != null) { _query.append('id', params.id) }
+        if (params.sku != null) { _query.append('sku', params.sku.toString()) }
+        return {
+          url: `product?${_query.toString()}`,
+        }
+      }
+    }),
+    getProducts: builder.query<IListResult, IProductsQueryParams>({
+      query (params: IProductsQueryParams) {
         const _query = new URLSearchParams()
         if (params.page != null) { _query.append('page', params.page.toString()) }
         if (params.perPage != null) { _query.append('perPage', params.perPage.toString()) }
@@ -36,6 +47,6 @@ export const backendApi = createApi({
   })
 })
 
-export const { useGetAllCategoriesQuery, useGetAllSubCategoriesQuery, useGetProductsQuery } = backendApi
+export const { useGetAllCategoriesQuery, useGetAllSubCategoriesQuery, useGetProductsQuery, useGetProductQuery } = backendApi
 
 export default backendApi
