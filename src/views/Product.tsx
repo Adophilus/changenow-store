@@ -7,28 +7,18 @@ import { add as addToCart, remove as removeFromCart } from '../features/Cart'
 import { add as addToFavourites, remove as removeFromFavourites } from '../features/Favourites'
 import { useGetProductQuery } from '../services/Backend'
 import { useAppDispatch, useAppSelector } from '../hooks/Store'
-import { IProduct } from '../types/Collections'
-
-interface IState {
-  error: string | boolean
-  loading: boolean
-  product?: IProduct
-  inCart: boolean
-  inFavourites: boolean
-}
 
 const Product: React.FC = () => {
   const dispatch = useAppDispatch()
   const { sku } = useParams()
-  const { cart, favourites } = useAppSelector((state) => state)
   const { data: product, error, isLoading } = useGetProductQuery({ sku: parseInt(sku) })
-  const [state, setState] = useState<IState>({
-    inCart: false,
-    inFavourites: false
-  })
+  const { inCart, inFavourites } = useAppSelector((state) => ({
+    inCart: state.cart[product?.id] != null,
+    inFavourites: state.favourites[product?.id] != null,
+  }))
 
   const toggleItemFromCart = (): void => {
-    if (state.product != null && state.inCart) {
+    if (product != null && inCart) {
       dispatch(
         removeFromCart({ product: product.id, quantity: 1 })
       )
@@ -38,7 +28,7 @@ const Product: React.FC = () => {
   }
 
   const toggleItemFromFavourites = (): void => {
-    if (state.product != null && state.inFavourites) {
+    if (product != null && inFavourites) {
       removeFromFavourites({ product: product.id })
     } else {
       addToFavourites({ product: product.id })
@@ -83,7 +73,7 @@ const Product: React.FC = () => {
               }}
               href="#"
             >
-              {state.inFavourites
+              {inFavourites
                 ? (
                 <>
                   <i className="bi bi-suit-heart-fill"></i>&nbsp; Saved
@@ -97,14 +87,14 @@ const Product: React.FC = () => {
             </a>
             <a
               role="button"
-              className={`${state.inCart ? 'outline' : ''}`}
+              className={`${inCart ? 'outline' : ''}`}
               onClick={(e) => {
                 e.preventDefault()
                 toggleItemFromCart()
               }}
               href="#"
             >
-              {state.inCart
+              {inCart
                 ? (
                 <>
                   <i className="bi bi-cart-check"></i>&nbsp; Added
