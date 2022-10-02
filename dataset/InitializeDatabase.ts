@@ -33,7 +33,7 @@ const configure = async () => {
 const deleteCollections = async ({ client } : { client: PocketBase}) => {
   console.log('Deleting collections...')
 
-  const collections = ['products', 'categories', 'subCategories']
+  const collections = ['productsAnalytics', 'products', 'categories', 'subCategories']
   for (const collection of collections) {
     try {
       await client.collections.delete(collection)
@@ -45,7 +45,7 @@ const createCollections = async ({ client } : { client: PocketBase}) => {
   console.log('Creating collections...')
   const collections : { [key:string]: Collection } = {}
 
-  console.log('Creating categories collections...')
+  console.log('Creating categories collection...')
   collections.categories = await client.collections.create({
     name: 'categories',
     schema: [
@@ -59,7 +59,7 @@ const createCollections = async ({ client } : { client: PocketBase}) => {
     viewRule: ''
   })
 
-  console.log('Creating subCategories collections...')
+  console.log('Creating subCategories collection...')
   collections.subCategories = await client.collections.create({
     name: 'subCategories',
     schema: [
@@ -73,7 +73,7 @@ const createCollections = async ({ client } : { client: PocketBase}) => {
     viewRule: ''
   })
 
-  console.log('Creating products collections...')
+  console.log('Creating products collection...')
   collections.products = await client.collections.create({
     name: 'products',
     schema: [
@@ -139,6 +139,31 @@ const createCollections = async ({ client } : { client: PocketBase}) => {
     listRule: '',
     viewRule: ''
   })
+
+
+  console.log('Creating productsAnalytics collection...')
+  collections.productsAnalytics = await client.collections.create({
+    name: 'productsAnalytics',
+    schema: [
+      {
+        name: 'product',
+        type: 'relation',
+        required: true,
+        options: {
+          collectionId: collections.products.id,
+          maxSelect: 1
+        }
+      },
+      {
+        name: 'views',
+        type: 'number'
+      },
+      {
+        name: 'sales',
+        type: 'number'
+      }
+    ]
+  })
 }
 
 const collectionToID = async (map: { [key:string]: string }, collectionName:string, collectionValue:string, { client } : { client: PocketBase }) => {
@@ -170,7 +195,7 @@ const importData = async ({ client, database } : { client: PocketBase, database:
       { client }
     )
 
-    await client.records.create('products', {
+    const productRecord = await client.records.create('products', {
       sku: record.ProductId,
       title: record.ProductTitle,
       price: record.Price,
@@ -181,6 +206,12 @@ const importData = async ({ client, database } : { client: PocketBase, database:
       color: record.Colour,
       usage: record.Usage,
       image: record.ImageURL
+    })
+
+    await client.records.create('productsAnalytics', {
+      product: productRecord.id,
+      views: 0,
+      sales: 0
     })
   }
 }
