@@ -33,8 +33,11 @@ export const backendApi = createApi({
           _query.set('type', 'sku')
         }
         return {
-          url: `product/${id}?${_query.toString()}`,
+          url: `products/${id}?${_query.toString()}`,
         }
+      },
+      transformResponse (response: { message: IProduct }): IProduct {
+        return response.message
       }
     }),
     getProducts: builder.query<IListResult, IProductsQueryParams>({
