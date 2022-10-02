@@ -2,7 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IState } from './Store'
 
 interface IFavouritesState {
-  items: Map<string, boolean>
+  items: {
+    [key:string]: boolean
+  }
 }
 
 interface IPayload {
@@ -10,7 +12,7 @@ interface IPayload {
 }
 
 const initialState: IFavouritesState = {
-  items: new Map<string, boolean>()
+  items: {}
 }
 
 const favoutitesSlice = createSlice({
@@ -19,11 +21,11 @@ const favoutitesSlice = createSlice({
   reducers: {
     add (state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
-      state.items.set(product, true)
+      state.items[product] = true
     },
     remove (state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
-      if (state.items.has(product)) state.items.delete(product)
+      delete state.items[product]
     }
   }
 })

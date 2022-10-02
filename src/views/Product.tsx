@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import db from '../Database'
 import '../assets/Loader.scss'
 import '../assets/Product.scss'
 import Layout from '../components/layout/Layout'
 import { add as addToCart, remove as removeFromCart } from '../features/Cart'
 import { add as addToFavourites, remove as removeFromFavourites } from '../features/Favourites'
+import { useGetProductQuery } from '../services/Backend'
 import { useAppDispatch, useAppSelector } from '../hooks/Store'
 import { IProduct } from '../types/Collections'
-
-enum Errors {
-  PRODUCT_NOT_FOUND = 'Product not found!'
-}
 
 interface IState {
   error: string | boolean
@@ -23,11 +19,10 @@ interface IState {
 
 const Product: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { sku } = useParams() ?? ''
+  const { sku } = useParams()
   const { cart, favourites } = useAppSelector((state) => state)
+  const { data: product, error, isLoading } = useGetProductQuery({ sku: parseInt(sku) })
   const [state, setState] = useState<IState>({
-    error: false,
-    loading: true,
     inCart: false,
     inFavourites: false
   })
@@ -35,51 +30,28 @@ const Product: React.FC = () => {
   const toggleItemFromCart = (): void => {
     if (state.product != null && state.inCart) {
       dispatch(
-        removeFromCart({ product: state.product.id, quantity: 1 })
+        removeFromCart({ product: product.id, quantity: 1 })
       )
-      setState({ ...state, inCart: cart.items.has(state.product.id) })
     } else {
-      dispatch(addToCart({ product: state?.product?.id ?? '', quantity: 1 }))
-      setState({ ...state, inCart: true })
+      dispatch(addToCart({ product: product.id, quantity: 1 }))
     }
   }
 
   const toggleItemFromFavourites = (): void => {
     if (state.product != null && state.inFavourites) {
-      removeFromFavourites({ product: state.product.id })
-      setState({ ...state, inFavourites: favourites.items.has(state.product.id) })
+      removeFromFavourites({ product: product.id })
     } else {
-      addToFavourites({ product: state?.product?.id ?? '' })
-      setState({ ...state, inFavourites: true })
+      addToFavourites({ product: product.id })
     }
   }
 
-  useEffect(() => {
-    ;(async () => {
-      const productMeta = await db.getProducts({
-        options: { filter: `sku = ${sku ?? ''}`, $autoCancel: false }
-      })
-      if (productMeta.items.length > 0) {
-        return setState({
-          ...state,
-          loading: false,
-          error: false,
-          product: productMeta.items[0],
-          inCart: cart.items.has(productMeta.items[0].id)
-        })
-      } else {
-        return setState({ ...state, loading: false, error: Errors.PRODUCT_NOT_FOUND })
-      }
-    })().catch(err => setState({ ...state, loading: false, error: err.message as string }))
-  }, [])
-
   return (
     <Layout>
-      {state.loading
+      {isLoading
         ? (
         <div className="loader-full-screen" aria-busy="true"></div>
           )
-        : state.error === Errors.PRODUCT_NOT_FOUND
+        : error != null
           ? (
         <div className="loader-full-screen no-products-found">
           <i className="icon bi bi-emoji-frown"></i>
@@ -90,23 +62,16 @@ const Product: React.FC = () => {
           </Link>
         </div>
             )
-          : state.error !== false
-            ? (
-        <div className="loader-full-screen no-products-found">
-          <i className="bi bi-emoji-frown"></i>
-          <h3>{state.error}</h3>
-        </div>
-              )
             : (
         <article>
           <div className="product-cover">
-            <img src={state?.product?.image} />
+            <img src={product.image} />
           </div>
           <div>
-            <h4 className="product-title">{state?.product?.title}</h4>
+            <h4 className="product-title">{product.title}</h4>
           </div>
           <div className="product-price">
-            <h5>{state?.product?.price} XRP</h5>
+            <h5>{product.price} XRP</h5>
           </div>
           <div className="product-btns">
             <a
