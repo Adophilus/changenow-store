@@ -1,5 +1,5 @@
 {
-  "include": ["./run.ts", "./Server.ts"],
+  "include": ["./run.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
     "experimentalDecorators": true,

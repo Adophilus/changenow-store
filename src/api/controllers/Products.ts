@@ -32,12 +32,13 @@ export default class {
     }
   }
 
-  @Get(':id')
+  @Get(':uniqueId')
   private async getProductByUniqueIdentifier (req: Request, res: Response) {
-    const filters = []
-
+    const { uniqueId } = req.params
+    let filter:string
     for (const key of Object.keys(req.query)) {
-      filters.push(`${key} = '${req.query[key]}'`)
+      filter = `${key} = '${uniqueId}'`
+      break;
     }
 
     try {
@@ -45,7 +46,7 @@ export default class {
         'products',
         1,
         1,
-        { $autoCancel: false, expand: 'analytics', filter: filters.join('&&') }
+        { $autoCancel: false, expand: 'analytics', filter }
       )
 
       if (products.items.length !== 1)

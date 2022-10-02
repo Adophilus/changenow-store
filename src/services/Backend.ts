@@ -23,10 +23,17 @@ export const backendApi = createApi({
     getProduct: builder.query<IProduct, IProductQueryParams>({
       query (params:IProductQueryParams) {
         const _query = new URLSearchParams()
-        if (params.id != null) { _query.append('id', params.id) }
-        if (params.sku != null) { _query.append('sku', params.sku.toString()) }
+        let id:string // could be an id or sku
+        if (params.id != null) {
+          id = params.id
+          _query.append('id', 'true')
+        }
+        else if (params.sku != null) {
+          id = params.sku.toString()
+          _query.append('sku', 'true')
+        }
         return {
-          url: `product?${_query.toString()}`,
+          url: `product/${id}?${_query.toString()}`,
         }
       }
     }),
