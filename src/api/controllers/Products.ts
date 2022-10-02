@@ -39,8 +39,13 @@ export default class {
       const product = await this.pocketBaseClient.records.getOne(
         'products',
         productId,
-        { $autoCancel: false }
+        { $autoCancel: false, expand: 'analytics' }
       )
+
+      await this.pocketBaseClient.records.update('productsAnalytics', product.analytics, {
+        views: product['@expand'].analytics.views + 1
+      }, { $autoCancel: false })
+
       return res.status(StatusCodes.OK).send({ message: product })
     } catch (err) {
       this.logger.error(err)
