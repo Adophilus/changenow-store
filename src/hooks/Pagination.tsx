@@ -19,7 +19,7 @@ export const usePagination = ({
   pageSize,
   siblingCount = 1,
   currentPage
-}: Props): (Array<(string | number)> | undefined) => {
+}: Props): Array<string | number> | undefined => {
   const paginationRange = useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize)
 

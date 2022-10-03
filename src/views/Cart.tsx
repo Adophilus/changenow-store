@@ -19,7 +19,10 @@ interface IState {
   products: IProduct[]
 }
 
-const ProductRow: React.FC<{ product: IProduct, cart: ICartState }> = ({ product, cart }) => {
+const ProductRow: React.FC<{ product: IProduct; cart: ICartState }> = ({
+  product,
+  cart
+}) => {
   return (
     <div className="row product-row">
       <div className="col-lg-3">
@@ -45,7 +48,9 @@ const ProductRow: React.FC<{ product: IProduct, cart: ICartState }> = ({ product
       </div>
       <div className="col-lg-3">- 1 +</div>
       <div className="col-lg-3">
-        <strong>{product.price as number * (cart.items.get(product.id) ?? 0) }</strong>
+        <strong>
+          {(product.price as number) * (cart.items.get(product.id) ?? 0)}
+        </strong>
       </div>
     </div>
   )
@@ -77,17 +82,16 @@ const Cart: React.FC = () => {
         error: false,
         products: productMeta.items
       })
-    })().catch(err => setState({ ...state, loading: false, error: err.message }))
+    })().catch((err) =>
+      setState({ ...state, loading: false, error: err.message })
+    )
   }, [])
 
   return (
     <Layout>
-      {state.loading
-        ? (
+      {state.loading ? (
         <div className="loader-full-screen" aria-busy="true"></div>
-          )
-        : state.error === Errors.CART_EMPTY
-          ? (
+      ) : state.error === Errors.CART_EMPTY ? (
         <div className="loader-full-screen no-products-found">
           <i className="icon bi bi-bag"></i> <h3>{state.error}</h3>
           <Link to="/store">
@@ -95,15 +99,12 @@ const Cart: React.FC = () => {
             Back to store
           </Link>
         </div>
-            )
-          : state.error !== false
-            ? (
+      ) : state.error !== false ? (
         <div className="loader-full-screen no-products-found">
           <i className="bi bi-emoji-frown"></i>
           <h3>{state.error}</h3>
         </div>
-              )
-            : (
+      ) : (
         <article className="cart">
           <div className="row">
             <div className="row product-row-header">
@@ -118,7 +119,7 @@ const Cart: React.FC = () => {
             ))}
           </div>
         </article>
-              )}
+      )}
     </Layout>
   )
 }

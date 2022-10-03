@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 interface ReturnValue {
   state: Map<string, string[]>
-  get: (key: string) => (string[] | undefined)
+  get: (key: string) => string[] | undefined
   getAll: () => string[]
   add: (key: string, value: string) => void
   remove: (key: string, value: string) => void
@@ -21,24 +21,27 @@ export default (filters: string[]): ReturnValue => {
 
   return {
     state,
-    get (key: string) {
+    get(key: string) {
       return state.get(key)
     },
-    getAll () {
+    getAll() {
       let filters: string[] = []
       for (const key of state.keys()) {
         filters = filters.concat(state.get(key) ?? [])
       }
       return filters
     },
-    add (key: string, value: string) {
+    add(key: string, value: string) {
       const newState = new Map(state)
       newState.set(key, state.get(key)?.concat(value) ?? [])
       setState(newState)
     },
-    remove (key: string, value: string) {
+    remove(key: string, value: string) {
       const newState = new Map(state)
-      newState.set(key, state.get(key)?.filter(_value => _value !== value) ?? [])
+      newState.set(
+        key,
+        state.get(key)?.filter((_value) => _value !== value) ?? []
+      )
       setState(newState)
     }
   }

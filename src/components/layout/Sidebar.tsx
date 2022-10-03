@@ -31,15 +31,11 @@ const Sidebar: React.FC<Props> = ({
       <article className="scrollable">
         <section className="categories">
           <h5>Categories</h5>
-          {categoriesLoading
-            ? (
+          {categoriesLoading ? (
             <div aria-busy="true"></div>
-              )
-            : categoriesError != null
-              ? (
+          ) : categoriesError != null ? (
             <div>Couldn&apos;t fetch categories!</div>
-                )
-              : (
+          ) : (
             <ul>
               {categories?.map((category: ICategory, index: number) => (
                 <li key={index}>
@@ -57,37 +53,35 @@ const Sidebar: React.FC<Props> = ({
                 </li>
               ))}
             </ul>
-                )}
+          )}
         </section>
         <section className="categories">
           <h5>Sub-Categories</h5>
-          {subCategoriesLoading
-            ? (
+          {subCategoriesLoading ? (
             <div aria-busy="true"></div>
-              )
-            : subCategoriesError != null
-              ? (
+          ) : subCategoriesError != null ? (
             <div>Couldn&apos;t fetch sub categories!</div>
-                )
-              : (
+          ) : (
             <ul>
-              {subCategories?.map((subCategory: ISubCategory, index: number) => (
-                <li key={index}>
-                  <input
-                    id={`subCategoryCheck${index}`}
-                    onChange={(e) =>
-                      onSubCategoryChange(subCategory, e.target.checked)
-                    }
-                    type="checkbox"
-                  />
-                  &nbsp;
-                  <label htmlFor={`subCategoryCheck${index}`}>
-                    {subCategory.name}
-                  </label>
-                </li>
-              ))}
+              {subCategories?.map(
+                (subCategory: ISubCategory, index: number) => (
+                  <li key={index}>
+                    <input
+                      id={`subCategoryCheck${index}`}
+                      onChange={(e) =>
+                        onSubCategoryChange(subCategory, e.target.checked)
+                      }
+                      type="checkbox"
+                    />
+                    &nbsp;
+                    <label htmlFor={`subCategoryCheck${index}`}>
+                      {subCategory.name}
+                    </label>
+                  </li>
+                )
+              )}
             </ul>
-                )}
+          )}
         </section>
       </article>
     </aside>

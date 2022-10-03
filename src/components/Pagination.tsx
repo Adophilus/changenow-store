@@ -3,13 +3,18 @@ import { usePagination, DOTS } from '../hooks/Pagination'
 import '../assets/Pagination.scss'
 
 interface Props {
-  onPageChange: (pageNumber: (string | number)) => void
+  onPageChange: (pageNumber: string | number) => void
   totalCount: number
   pageSize: number
   currentPage: number
 }
 
-const Pagination: React.FC<Props> = ({ onPageChange, totalCount, pageSize, currentPage }) => {
+const Pagination: React.FC<Props> = ({
+  onPageChange,
+  totalCount,
+  pageSize,
+  currentPage
+}) => {
   const pages = usePagination({
     totalCount,
     pageSize,
@@ -21,56 +26,51 @@ const Pagination: React.FC<Props> = ({ onPageChange, totalCount, pageSize, curre
   if (pages === undefined) return <nav className="pagination"></nav>
 
   return (
-      <nav className="pagination">
-        <ul>
-          <li>
-            {currentPage === 1
-              ? (
-              <span>
-                <i className="bi bi-chevron-double-left"></i>
-              </span>
-                )
-              : (
-              <a href="#">
-                <i className="bi bi-chevron-double-left"></i>
-              </a>
-                )}
-          </li>
-          {pages?.map((page, index) => (
-            <li key={index}>
-              {page === DOTS || page === currentPage
-                ? (
-                <span>{page}</span>
-                  )
-                : (
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
+    <nav className="pagination">
+      <ul>
+        <li>
+          {currentPage === 1 ? (
+            <span>
+              <i className="bi bi-chevron-double-left"></i>
+            </span>
+          ) : (
+            <a href="#">
+              <i className="bi bi-chevron-double-left"></i>
+            </a>
+          )}
+        </li>
+        {pages?.map((page, index) => (
+          <li key={index}>
+            {page === DOTS || page === currentPage ? (
+              <span>{page}</span>
+            ) : (
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
 
-                    onPageChange(page)
-                  }}
-                >
-                  {page}
-                </a>
-                  )}
-            </li>
-          ))}
-          <li>
-            {currentPage === lastPage
-              ? (
-              <span>
-                <i className="bi bi-chevron-double-right"></i>
-              </span>
-                )
-              : (
-              <a href="#">
-                <i className="bi bi-chevron-double-right"></i>
+                  onPageChange(page)
+                }}
+              >
+                {page}
               </a>
-                )}
+            )}
           </li>
-        </ul>
-      </nav>)
+        ))}
+        <li>
+          {currentPage === lastPage ? (
+            <span>
+              <i className="bi bi-chevron-double-right"></i>
+            </span>
+          ) : (
+            <a href="#">
+              <i className="bi bi-chevron-double-right"></i>
+            </a>
+          )}
+        </li>
+      </ul>
+    </nav>
+  )
 }
 
 export default Pagination

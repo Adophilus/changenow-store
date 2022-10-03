@@ -9,9 +9,10 @@ export const store = configureStore({
     favourites,
     [backendApi.reducerPath]: backendApi.reducer
   },
-  middleware (getDefaultMiddleware) {
-    return getDefaultMiddleware({ serializableCheck: false }
-    ).concat(backendApi.middleware)
+  middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware({ serializableCheck: false }).concat(
+      backendApi.middleware
+    )
   }
 })
 

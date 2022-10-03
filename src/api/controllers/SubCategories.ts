@@ -9,13 +9,13 @@ export default class {
   private readonly logger: Logger
   private readonly pocketBaseClient: pocketbase
 
-  constructor ({ pocketBaseClient, logger }) {
+  constructor({ pocketBaseClient, logger }) {
     this.logger = logger.getChildLogger({ name: 'SubCategoriesAPI' })
     this.pocketBaseClient = pocketBaseClient
   }
 
   @Get()
-  private async getSubCategories (req: Request, res: Response) {
+  private async getSubCategories(req: Request, res: Response) {
     try {
       const subCategories = await this.pocketBaseClient.records.getFullList(
         'subCategories',
@@ -25,12 +25,14 @@ export default class {
       return res.status(StatusCodes.OK).send({ message: subCategories })
     } catch (err) {
       this.logger.error(err)
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
     }
   }
 
   @Get(':id')
-  private async getSubCategoryById (req: Request, res: Response) {
+  private async getSubCategoryById(req: Request, res: Response) {
     const { subCategoryId } = req.params
     try {
       const subCategory = await this.pocketBaseClient.records.getOne(
@@ -41,7 +43,9 @@ export default class {
       return res.status(StatusCodes.OK).send({ message: subCategory })
     } catch (err) {
       this.logger.error(err)
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
     }
   }
 }

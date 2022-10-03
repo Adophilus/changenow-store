@@ -3,8 +3,9 @@ import { IState } from './Store'
 
 interface IFavouritesState {
   items: {
-    [key:string]: boolean
+    [key: string]: boolean
   }
+  has: (key: string) => boolean
 }
 
 interface IPayload {
@@ -12,18 +13,21 @@ interface IPayload {
 }
 
 const initialState: IFavouritesState = {
-  items: {}
+  items: {},
+  has(key: string) {
+    return this.items[key] != null
+  }
 }
 
 const favoutitesSlice = createSlice({
   name: 'favoutites',
   initialState,
   reducers: {
-    add (state, action: PayloadAction<IPayload>) {
+    add(state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
       state.items[product] = true
     },
-    remove (state, action: PayloadAction<IPayload>) {
+    remove(state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
       delete state.items[product]
     }
@@ -31,5 +35,6 @@ const favoutitesSlice = createSlice({
 })
 
 export const { add, remove } = favoutitesSlice.actions
-export const selectFavourites = (state: IState): IFavouritesState => state.favourites
+export const selectFavourites = (state: IState): IFavouritesState =>
+  state.favourites
 export default favoutitesSlice.reducer

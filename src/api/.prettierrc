@@ -8,6 +8,6 @@
   "bracketSpacing": true,
   "importOrderParserPlugins": ["typescript", "decorators-legacy"],
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
-  "importOrderSeparation": true, 
+  "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

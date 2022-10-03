@@ -2,7 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IState } from './Store'
 
 export interface ICartState {
-  items: Map<string, number>
+  items: {
+    [key: string]: number
+  }
+  has: (key: string) => boolean
 }
 
 interface IPayload {
@@ -11,24 +14,29 @@ interface IPayload {
 }
 
 const initialState: ICartState = {
-  items: new Map<string, number>()
+  items: {},
+  has(key) {
+    return this.items[key] != null
+  }
 }
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    add (state, action: PayloadAction<IPayload>) {
+    add(state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
       const quantity = action.payload.quantity
-      if (state.items.has(product)) state.items.set(product, state.items.get(product) as number + quantity)
-      else state.items.set(product, quantity)
+      if (state.items[product] != null) state.items[product] += quantity
+      else state.items[product] = quantity
     },
-    remove (state, action: PayloadAction<IPayload>) {
+    remove(state, action: PayloadAction<IPayload>) {
       const { product } = action.payload
       const quantity = action.payload.quantity
-      if (state.items.has(product)) state.items.set(product, state.items.get(product) as number - quantity)
-      if (state.items.get(product) as number <= 0) state.items.delete(product)
+      if (state.items[product] != null) {
+        state.items[product] -= quantity
+        if (state.items[product] <= 0) delete state.items[product]
+      }
     }
   }
 })

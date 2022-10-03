@@ -17,13 +17,12 @@ const ProductTab: React.FC<Props> = ({ product }) => {
   const addItemToCart = (): void => {
     dispatch(addToCart({ product: product.id, quantity: 1 }))
   }
-  const productTabStyle: React.CSSProperties = { ['--background' as any]: `url('${product.image}')` }
+  const productTabStyle: React.CSSProperties = {
+    ['--background' as any]: `url('${product.image}')`
+  }
   return (
     <article className="product-tab">
-      <div
-        className="cover-img"
-        style={productTabStyle}
-      >
+      <div className="cover-img" style={productTabStyle}>
         <div className="cover">
           <Link
             role="button"

@@ -29,17 +29,15 @@ const Navbar: React.FC = () => {
           <li>
             <Link
               className={`cart-indicator ${
-                (Object.keys(cart.items).length > 0) ? 'not-empty' : ''
+                Object.keys(cart.items).length > 0 ? 'not-empty' : ''
               }`}
               to="/cart"
             >
-              {(Object.keys(cart.items).length > 0)
-                ? (
+              {Object.keys(cart.items).length > 0 ? (
                 <i className="bi bi-bag-check"></i>
-                  )
-                : (
+              ) : (
                 <i className="bi bi-bag-dash"></i>
-                  )}
+              )}
             </Link>
           </li>
         </ul>
