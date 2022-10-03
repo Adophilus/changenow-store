@@ -43,8 +43,9 @@ const Home: React.FC = () => {
         <div>
           <Swiper
             className="products-carousel"
-          slidesPerView={3}
+            slidesPerView="auto"
           spaceBetween={50}
+          modules={[Navigation]}
           breakpoints={{
               'phones': {
                 width: 640,
