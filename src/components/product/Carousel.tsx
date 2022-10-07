@@ -35,7 +35,7 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
       <Swiper
         className="products-carousel"
         onSwiper={(swiper) => setSwiperRef(swiper)}
-        onReachEnd={onReachEnd}
+        onReachEnd={() => onReachEnd()}
         modules={[Pagination]}
       >
         {
