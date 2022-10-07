@@ -1,12 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper'
 import Layout from '../components/layout/Layout'
+import ProductCarousel from '../components/product/Carousel'
 import 'swiper/css/bundle'
 import '../assets/Banner.scss'
 import '../assets/Product.scss'
 import { useGetProducts, IProducts } from '../hooks/Products'
-import ProductTab from '../components/ProductTab'
-import { IProduct } from '../types/Collections'
 
 const Home: React.FC = () => {
   const products: IProducts = useGetProducts()
@@ -34,43 +33,13 @@ const Home: React.FC = () => {
           </SwiperSlide>
         </Swiper>
       </article>
-      <article>
-        <h3>Most Popular</h3>
+      <article className="products-carousel-container">
+        <h3 className="products-carousel-heading">Most Popular</h3>
         <div>
           {products.mostPopular.length == 0 ? (
             <div aria-busy="true"></div>
           ) : (
-            <div className="products-carousel-wrapper">
-              <a
-                role="button"
-                href="#"
-                className="products-carousel-nav-btn nav-left"
-              >
-                <i className="bi bi-chevron-left"></i>
-              </a>
-              <Swiper
-                className="products-carousel"
-                onSwiper={setMostPopularSwiperRef}
-                modules={[Pagination]}
-              >
-                {
-                  <>
-                    {products.mostPopular.map(
-                      (product: IProduct, index: number) => (
-                        <SwiperSlide style={{ flexShrink: '1' }} key={index}>
-                          <ProductTab product={product} />
-                        </SwiperSlide>
-                      )
-                    )}
-                    <div aria-busy="true"></div>
-                  </>
-                }
-              </Swiper>
-
-              <a role="button" className="products-carousel-nav-btn nav-right">
-                <i className="bi bi-chevron-right"></i>
-              </a>
-            </div>
+            <ProductCarousel products={products.mostPopular} />
           )}
         </div>
       </article>
