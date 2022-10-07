@@ -1,15 +1,16 @@
 import ProductTab from '../ProductTab'
 import { IProduct } from '../../types/Collections'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper'
+import { Pagination, type Swiper as SwiperRef } from 'swiper'
 import { useState, useCallback } from 'react'
 
 interface Props {
   products: IProduct[]
+  onReachEnd: () => void
 }
 
-const ProductCarousel: React.FC<Props> = ({ products }) => {
-  const [swiperRef, setSwiperRef] = useState()
+const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
+  const [swiperRef, setSwiperRef] = useState<SwiperRef>()
 
   const handleLeftClick = useCallback(() => {
     if (!swiperRef) return
@@ -26,7 +27,7 @@ const ProductCarousel: React.FC<Props> = ({ products }) => {
       <a
         role="button"
         onClick={handleLeftClick}
-        href="return false;"
+        href="#!"
         className="products-carousel-nav-btn nav-left"
       >
         <i className="bi bi-chevron-left"></i>
@@ -34,7 +35,7 @@ const ProductCarousel: React.FC<Props> = ({ products }) => {
       <Swiper
         className="products-carousel"
         onSwiper={(swiper) => setSwiperRef(swiper)}
-        onReachEnd={() => console.log('reached end')}
+        onReachEnd={onReachEnd}
         modules={[Pagination]}
       >
         {
@@ -51,7 +52,7 @@ const ProductCarousel: React.FC<Props> = ({ products }) => {
       <a
         role="button"
         onClick={handleRightClick}
-        href="javascript:void()"
+        href="#!"
         className="products-carousel-nav-btn nav-right"
       >
         <i className="bi bi-chevron-right"></i>

@@ -39,7 +39,10 @@ const Home: React.FC = () => {
           {products.mostPopular.length == 0 ? (
             <div aria-busy="true"></div>
           ) : (
-            <ProductCarousel products={products.mostPopular} />
+            <ProductCarousel
+              onReachEnd={() => products.loadMore('mostPopular')}
+              products={products.mostPopular}
+            />
           )}
         </div>
       </article>
