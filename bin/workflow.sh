@@ -12,9 +12,9 @@ function checkSessionActive () {
   fi
 }
 
-checkSessionActive
+# checkSessionActive
 
-tmux new-session -d -s "$sessionName" -c "$projectDir"
+# tmux new-session -d -s "$sessionName" -c "$projectDir"
 
 tmux split-window -v -t top "cd '$projectDir' && bash" 
 tmux split-window -h -t bottom "cd '$projectDir' && bash"

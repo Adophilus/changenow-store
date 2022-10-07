@@ -119,11 +119,33 @@
   font-size: 50px;
 }
 
+.products-carousel-wrapper {
+  position: relative;
+}
+
+.products-carousel-wrapper .products-carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.products-carousel-wrapper .products-carousel-nav-btn.nav-left {
+  left: 0;
+}
+
+.products-carousel-wrapper .products-carousel-nav-btn.nav-right {
+  right: 0;
+}
+
 .products-carousel > .swiper-wrapper {
   padding-left: 50px;
   padding-right: 50px;
 }
 
+.products-carousel .swiper-wrapper {
+  column-gap: 50px;
+}
+
 .products-carousel .product-tab {
-  width: 30%;
+  width: 300px;
 }

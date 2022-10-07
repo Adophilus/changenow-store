@@ -1,10 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper'
+import { Autoplay, Pagination } from 'swiper'
 import Layout from '../components/layout/Layout'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/autoplay'
+import 'swiper/css/bundle'
 import '../assets/Banner.scss'
 import '../assets/Product.scss'
 import { useGetProducts, IProducts } from '../hooks/Products'
@@ -12,7 +9,6 @@ import ProductTab from '../components/ProductTab'
 import { IProduct } from '../types/Collections'
 
 const Home: React.FC = () => {
-  SwiperCore.use([Autoplay, Pagination, Navigation])
   const products: IProducts = useGetProducts()
 
   return (
@@ -23,7 +19,7 @@ const Home: React.FC = () => {
           navigation
           loop={true}
           pagination={{ clickable: true }}
-          spaceBetween={0}
+          spaceBetween={1}
           slidesPerView={1}
           modules={[Pagination, Autoplay]}
         >
@@ -41,24 +37,41 @@ const Home: React.FC = () => {
       <article>
         <h3>Most Popular</h3>
         <div>
-          <Swiper
-            className="products-carousel"
-            slidesPerView="auto"
-          spaceBetween={50}
-          modules={[Navigation]}
-          breakpoints={{
-              'phones': {
-                width: 640,
-                slidesPerView: 2,
-              },
-              'notebooks': {
-                width: 1000,
-                slidesPerView: 3
-              }
-            }}
-          >
-            {products.mostPopular.map((product:IProduct, index:number) => <SwiperSlide key={index}><ProductTab product={product} /></SwiperSlide>)}
-          </Swiper>
+          {products.mostPopular.length == 0 ? (
+            <div aria-busy="true"></div>
+          ) : (
+            <div className="products-carousel-wrapper">
+              <a
+                role="button"
+                href="#"
+                className="products-carousel-nav-btn nav-left"
+              >
+                <i className="bi bi-chevron-left"></i>
+              </a>
+              <Swiper
+                className="products-carousel"
+                onSwiper={setMostPopularSwiperRef}
+                modules={[Pagination]}
+              >
+                {
+                  <>
+                    {products.mostPopular.map(
+                      (product: IProduct, index: number) => (
+                        <SwiperSlide style={{ flexShrink: '1' }} key={index}>
+                          <ProductTab product={product} />
+                        </SwiperSlide>
+                      )
+                    )}
+                    <div aria-busy="true"></div>
+                  </>
+                }
+              </Swiper>
+
+              <a role="button" className="products-carousel-nav-btn nav-right">
+                <i className="bi bi-chevron-right"></i>
+              </a>
+            </div>
+          )}
         </div>
       </article>
       <article>
