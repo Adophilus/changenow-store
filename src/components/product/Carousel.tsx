@@ -3,6 +3,8 @@ import { IProduct } from '../../types/Collections'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, type Swiper as SwiperRef } from 'swiper'
 import { useState, useCallback } from 'react'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
+import '@splidejs/react-splide/css'
 
 interface Props {
   products: IProduct[]
@@ -24,7 +26,7 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
 
   return (
     <div className="products-carousel-wrapper">
-      <a
+      {/*<a
         role="button"
         onClick={handleLeftClick}
         href="#!"
@@ -58,7 +60,21 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
         className="products-carousel-nav-btn nav-right"
       >
         <i className="bi bi-chevron-right"></i>
-      </a>
+      </a>*/}
+      <Splide
+        options={{
+          autoWidth: true,
+          pagination: false,
+          gap: 'var(--block-spacing-horizontal)'
+        }}
+        className="products-carousel"
+      >
+        {products.map((product: IProduct, index: number) => (
+          <SplideSlide key={index}>
+            <ProductTab product={product} />
+          </SplideSlide>
+        ))}
+      </Splide>
     </div>
   )
 }

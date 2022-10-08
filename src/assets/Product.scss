@@ -131,6 +131,7 @@
 
 .products-carousel-wrapper {
   position: relative;
+  overflow-x: hidden;
 }
 
 .products-carousel-wrapper .products-carousel-nav-btn {
@@ -159,6 +160,7 @@
 
 .products-carousel .swiper-wrapper {
   margin-left: 50px;
+  overflow: hidden;
 }
 
 .products-carousel .swiper-wrapper {
