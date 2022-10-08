@@ -26,14 +26,21 @@ const configure = async () => {
     process.env.POCKETBASE_ADMIN_EMAIL ?? '',
     process.env.POCKETBASE_ADMIN_PASS ?? ''
   )
-  const database:IDatabase = JSON.parse(await readFile(DB_PATH, { encoding: 'utf8' }))
+  const database: IDatabase = JSON.parse(
+    await readFile(DB_PATH, { encoding: 'utf8' })
+  )
   return { client, database }
 }
 
-const deleteCollections = async ({ client } : { client: PocketBase}) => {
+const deleteCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Deleting collections...')
 
-  const collections = ['products', 'categories', 'subCategories', 'productsAnalytics']
+  const collections = [
+    'products',
+    'categories',
+    'subCategories',
+    'productsAnalytics'
+  ]
   for (const collection of collections) {
     try {
       await client.collections.delete(collection)
@@ -41,9 +48,9 @@ const deleteCollections = async ({ client } : { client: PocketBase}) => {
   }
 }
 
-const createCollections = async ({ client } : { client: PocketBase}) => {
+const createCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Creating collections...')
-  const collections : { [key:string]: Collection } = {}
+  const collections: { [key: string]: Collection } = {}
 
   console.log('Creating categories collection...')
   collections.categories = await client.collections.create({
@@ -165,7 +172,12 @@ const createCollections = async ({ client } : { client: PocketBase}) => {
   })
 }
 
-const collectionToID = async (map: { [key:string]: string }, collectionName:string, collectionValue:string, { client } : { client: PocketBase }) => {
+const collectionToID = async (
+  map: { [key: string]: string },
+  collectionName: string,
+  collectionValue: string,
+  { client }: { client: PocketBase }
+) => {
   if (Object.keys(map).includes(collectionValue)) return map[collectionValue]
 
   const createdCollection = await client.records.create(collectionName, {
@@ -175,10 +187,16 @@ const collectionToID = async (map: { [key:string]: string }, collectionName:stri
   return map[collectionValue]
 }
 
-const importData = async ({ client, database } : { client: PocketBase, database: IDatabase}) => {
+const importData = async ({
+  client,
+  database
+}: {
+  client: PocketBase
+  database: IDatabase
+}) => {
   console.log('Importing data...')
-  const categories: { [key:string]: string } = {}
-  const subCategories: { [key:string]:string } = {}
+  const categories: { [key: string]: string } = {}
+  const subCategories: { [key: string]: string } = {}
 
   for (let record of database) {
     let category = await collectionToID(
@@ -194,10 +212,13 @@ const importData = async ({ client, database } : { client: PocketBase, database:
       { client }
     )
 
-    const productAnalyticsRecord = await client.records.create('productsAnalytics', {
-      views: 0,
-      sales: 0
-    })
+    const productAnalyticsRecord = await client.records.create(
+      'productsAnalytics',
+      {
+        views: 0,
+        sales: 0
+      }
+    )
 
     await client.records.create('products', {
       sku: record.ProductId,
@@ -212,7 +233,6 @@ const importData = async ({ client, database } : { client: PocketBase, database:
       usage: record.Usage,
       image: record.ImageURL
     })
-
   }
 }
 

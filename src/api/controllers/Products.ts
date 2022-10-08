@@ -17,7 +17,7 @@ export default class {
   @Get()
   private async getProducts(req: Request, res: Response): Promise<void> {
     const { page, perPage, filter, sort } = req.query
-    const options: { filter?: string, sort?: string } = {}
+    const options: { filter?: string; sort?: string } = {}
 
     if (filter != null) {
       options.filter = filter.toString()
