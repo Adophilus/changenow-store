@@ -32,7 +32,7 @@ export const useGetProducts = (): IProducts => {
         mostPopular.concat(query.mostPopular.data.items as IProduct[])
       )
     }
-  }, [query.mostPopular])
+  }, [query.mostPopular.data])
 
   useEffect(() => {
     if (query.bestPriced.data != null) {
@@ -40,7 +40,7 @@ export const useGetProducts = (): IProducts => {
         bestPriced.concat(query.bestPriced.data.items as IProduct[])
       )
     }
-  }, [query.bestPriced])
+  }, [query.bestPriced.data])
 
   return {
     mostPopular,

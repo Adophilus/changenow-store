@@ -3,15 +3,20 @@ import { useGetProductsQuery } from '../services/Backend'
 
 const TestView: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1)
-  const mostPopularProducts = useGetProductsQuery({
+  const { error, data, isLoading } = useGetProductsQuery({
     page: pageNumber,
     perPage: 5,
     sort: '+analytics.views'
   })
 
   useEffect(() => {
-    console.log(mostPopularProducts.data)
-  }, [mostPopularProducts.data])
+    if (error != null) {
+      console.warn(error)
+      return
+    }
+    if (isLoading) return
+    console.log(data.items.map((item) => item.id))
+  }, [data])
 
   return (
     <div
