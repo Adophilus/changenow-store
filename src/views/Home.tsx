@@ -51,6 +51,39 @@ const Home: React.FC = () => {
           />
         </div>
       </article>
+      <article>
+        <h3>ChangeNOW Store</h3>
+        <p>
+          The purpose of this project is to serve as a test (set by myself) to
+          prepare me for the the role of React Developer at ChangeNOW. It makes
+          use of all the technologies stated on the job requirements.
+        </p>
+        <p>
+          I learnt a lot during the course of this project. The most important
+          takeaway was automating the deployment to my personal server using
+          GitHub actions.
+        </p>
+        <p>
+          <a role="button" href="/about">
+            Read More
+          </a>
+        </p>
+      </article>
+      <article
+        style={{
+          textAlign: 'center'
+        }}
+      >
+        Made with{' '}
+        <i style={{ color: '#F93822' }} className="bi bi-heart-fill"></i> by{' '}
+        <a
+          rel="noref noopener"
+          target="_blank"
+          href="https://github.com/Adophilus"
+        >
+          Uchenna Ofoma
+        </a>
+      </article>
     </Layout>
   )
 }
