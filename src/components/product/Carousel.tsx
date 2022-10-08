@@ -1,8 +1,5 @@
 import ProductTab from '../ProductTab'
 import { IProduct } from '../../types/Collections'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, type Swiper as SwiperRef } from 'swiper'
-import { useState, useCallback } from 'react'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
 
@@ -12,18 +9,6 @@ interface Props {
 }
 
 const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
-  const [swiperRef, setSwiperRef] = useState<SwiperRef>()
-
-  const handleLeftClick = useCallback(() => {
-    if (!swiperRef) return
-    swiperRef.slidePrev()
-  }, [swiperRef])
-
-  const handleRightClick = useCallback(() => {
-    if (!swiperRef) return
-    swiperRef.slideNext()
-  }, [swiperRef])
-
   return (
     <div className="products-carousel-wrapper">
       {/*<a
