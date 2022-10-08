@@ -67,9 +67,7 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
           pagination: false,
           gap: 'var(--block-spacing-horizontal)'
         }}
-        onMoved={(e) => {
-          if (e.index >= products.length - 2) onReachEnd()
-        }}
+        onMoved={() => console.log('carousel moved')}
         className="products-carousel"
       >
         {products.map((product: IProduct, index: number) => (
@@ -78,10 +76,7 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
           </SplideSlide>
         ))}
         <SplideSlide>
-          <div
-            aria-busy="true"
-            className="products-carousel-slide-loader"
-          ></div>
+          <div aria-busy="true" className="products-carousel-slide-loader"></div>
         </SplideSlide>
       </Splide>
     </div>

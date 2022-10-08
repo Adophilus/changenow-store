@@ -150,8 +150,8 @@
 }
 
 .products-carousel {
-  margin-left: 50px !important;
-  margin-right: 50px !important;
+  // margin-left: 50px !important;
+  // margin-right: 50px !important;
 }
 
 .products-carousel .swiper-slide {
@@ -169,4 +169,12 @@
 
 .products-carousel .product-tab {
   width: 300px;
+}
+
+.products-carousel-slide-loader {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
