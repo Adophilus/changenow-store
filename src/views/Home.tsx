@@ -42,8 +42,14 @@ const Home: React.FC = () => {
           />
         </div>
       </article>
-      <article>
-        <h3>Best Priced</h3>
+      <article className="products-carousel-container">
+        <h3 className="products-carousel-heading">Best Priced</h3>
+        <div>
+          <ProductCarousel
+            onReachEnd={() => products.loadMore('bestPriced')}
+            products={products.mostPopular}
+          />
+        </div>
       </article>
     </Layout>
   )
