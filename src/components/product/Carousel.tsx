@@ -45,7 +45,9 @@ const ProductCarousel: React.FC<Props> = ({ products, onReachEnd }) => {
                 <ProductTab product={product} />
               </SwiperSlide>
             ))}
-            <div aria-busy="true"></div>
+            <SwiperSlide>
+              <div aria-busy="true"></div>
+            </SwiperSlide>
           </>
         }
       </Swiper>
