@@ -36,14 +36,10 @@ const Home: React.FC = () => {
       <article className="products-carousel-container">
         <h3 className="products-carousel-heading">Most Popular</h3>
         <div>
-          {products.mostPopular.length == 0 ? (
-            <div aria-busy="true"></div>
-          ) : (
-            <ProductCarousel
-              onReachEnd={() => products.loadMore('mostPopular')}
-              products={products.mostPopular}
-            />
-          )}
+          <ProductCarousel
+            onReachEnd={() => products.loadMore('mostPopular')}
+            products={products.mostPopular}
+          />
         </div>
       </article>
       <article>
