@@ -4,7 +4,7 @@ import { useGetProductsQuery } from '../services/Backend'
 const TestView: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const mostPopularProducts = useGetProductsQuery({
-    page: 1,
+    page: pageNumber,
     perPage: 5,
     sort: '+analytics.views'
   })
@@ -14,10 +14,17 @@ const TestView: React.FC = () => {
   }, [mostPopularProducts.data])
 
   return (
-    <div>
-      <button onClick={() => setPageNumber(pageNumber + 1)}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh'
+      }}
+    >
+      <a role="button" href="#!" onClick={() => setPageNumber(pageNumber + 1)}>
         Increase number
-      </button>
+      </a>
     </div>
   )
 }
