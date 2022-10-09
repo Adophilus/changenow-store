@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import store from './features/Store'
 import HomeView from './views/Home'
+import AboutView from './views/About'
 import CartView from './views/Cart'
 import TestView from './views/Test'
 import StoreView from './views/Store'
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomeView />} />
+          <Route path="/about" element={<AboutView />} />
           <Route path="/test" element={<TestView />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/store" element={<StoreView />} />
