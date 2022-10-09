@@ -1,10 +1,7 @@
 import PocketBase, { Collection, Record } from 'pocketbase'
-import { readFile } from 'fs/promises'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
-const DB_PATH = './data/database.json'
-
 interface IProductRecord {
   ProductId: number
   ProductTitle: string
@@ -28,14 +25,20 @@ interface IDatabase {
 }
 
 const configure = async () => {
+  if (
+    process.env.POCKETBASE_ADMIN_EMAIL == null ||
+    process.env.POCKETBASE_ADMIN_PASS == null
+  )
+    throw new Error('Invalid admin credentials!')
+  if (process.env.DB_URL == null) throw new Error('Invalid database URL!')
+
   const client = new PocketBase(process.env.POCKETBASE_URL)
   await client.admins.authViaEmail(
-    process.env.POCKETBASE_ADMIN_EMAIL ?? '',
-    process.env.POCKETBASE_ADMIN_PASS ?? ''
+    process.env.POCKETBASE_ADMIN_EMAIL,
+    process.env.POCKETBASE_ADMIN_PASS
   )
-  const database: IDatabase = JSON.parse(
-    await readFile(DB_PATH, { encoding: 'utf8' })
-  )
+  const databaseText = await fetch(process.env.DB_URL)
+  const database: IDatabase = JSON.parse(await databaseText.text())
   return { client, database }
 }
 
@@ -243,8 +246,21 @@ const importProducts = async ({
   }
 }
 
-const importBanners = ({ client, banners }: { client: PocketBase, banners: IBannerRecord})
-const importData = async ({ client, database }: { client: PocketBase, database: IDatabase }) => {
+const importBanners = ({
+  client,
+  banners
+}: {
+  client: PocketBase
+  banners: IBannerRecord[]
+}) => {}
+
+const importData = async ({
+  client,
+  database
+}: {
+  client: PocketBase
+  database: IDatabase
+}) => {
   await importProducts({ client, products: database.products })
   await importBanners({ client, banners: database.banners })
 }

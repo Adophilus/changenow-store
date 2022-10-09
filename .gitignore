@@ -1,5 +1,6 @@
 .pocketbase/
 .scripts/
+build/
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,python
