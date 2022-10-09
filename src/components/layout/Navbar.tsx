@@ -25,7 +25,9 @@ const Navbar: React.FC = () => {
           <li>
             <Link to="/store">Store</Link>
           </li>
-          <li>About</li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
           <li>
             <Link
               className={`cart-indicator ${
