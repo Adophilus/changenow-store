@@ -23,6 +23,6 @@ tmux split-window -h -t top "cd '$projectDir' && bash"
 tmux send-keys -t 1 'pnpm db:start' 'C-m'
 tmux send-keys -t 2 'pnpm dev' 'C-m'
 tmux send-keys -t 3 'pnpm backend:dev' 'C-m'
-tmux send-keys -t 4 'pnpm lint:watch' 'C-m'
+tmux send-keys -t 4 'pnpm format:watch' 'C-m'
 
 tmux attach-session -t "$sessionName"
