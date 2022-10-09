@@ -18,7 +18,14 @@ interface IProductRecord {
   ImageURL: string
 }
 
-type IDatabase = IProductRecord[]
+interface IBannerRecord {
+  image: string
+}
+
+interface IDatabase {
+  products: IProductRecord[]
+  banners: IBannerRecord[]
+}
 
 const configure = async () => {
   const client = new PocketBase(process.env.POCKETBASE_URL)
@@ -187,18 +194,18 @@ const collectionToID = async (
   return map[collectionValue]
 }
 
-const importData = async ({
+const importProducts = async ({
   client,
-  database
+  products
 }: {
   client: PocketBase
-  database: IDatabase
+  products: IProductRecord[]
 }) => {
   console.log('Importing data...')
   const categories: { [key: string]: string } = {}
   const subCategories: { [key: string]: string } = {}
 
-  for (let record of database) {
+  for (let record of products) {
     let category = await collectionToID(
       categories,
       'categories',
@@ -234,6 +241,12 @@ const importData = async ({
       image: record.ImageURL
     })
   }
+}
+
+const importBanners = ({ client, banners }: { client: PocketBase, banners: IBannerRecord})
+const importData = async ({ client, database }: { client: PocketBase, database: IDatabase }) => {
+  await importProducts({ client, products: database.products })
+  await importBanners({ client, banners: database.banners })
 }
 
 const run = async () => {
