@@ -37,8 +37,17 @@ const configure = async () => {
     process.env.POCKETBASE_ADMIN_EMAIL,
     process.env.POCKETBASE_ADMIN_PASS
   )
-  const databaseText = await fetch(process.env.DB_URL)
-  const database: IDatabase = JSON.parse(await databaseText.text())
+
+  let database: IDatabase = { products: [], banners: [] }
+
+  try {
+    const res = await fetch(process.env.DB_URL)
+    database = JSON.parse(await res.text())
+  } catch (err) {
+    console.log('Failed to fetch database!')
+    console.log(err)
+  }
+
   return { client, database }
 }
 
@@ -47,6 +56,7 @@ const deleteCollections = async ({ client }: { client: PocketBase }) => {
 
   const collections = [
     'products',
+    'banners',
     'categories',
     'subCategories',
     'productsAnalytics'
@@ -101,6 +111,18 @@ const createCollections = async ({ client }: { client: PocketBase }) => {
       {
         name: 'sales',
         type: 'number'
+      }
+    ]
+  })
+
+  console.log('Creating banners collection...')
+  collections.banners = await client.collections.create({
+    name: 'banners',
+    schema: [
+      {
+        name: 'image',
+        type: 'text',
+        required: true
       }
     ]
   })
@@ -246,13 +268,19 @@ const importProducts = async ({
   }
 }
 
-const importBanners = ({
+const importBanners = async ({
   client,
   banners
 }: {
   client: PocketBase
   banners: IBannerRecord[]
-}) => {}
+}) => {
+  for (let banner of banners) {
+    await client.records.create('banners', {
+      image: banner.image
+    })
+  }
+}
 
 const importData = async ({
   client,
