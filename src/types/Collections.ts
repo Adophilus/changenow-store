@@ -29,3 +29,7 @@ export interface IProduct extends Record {
   usage: string
   image: string
 }
+
+export interface IBanner extends Record {
+  image: string
+}
