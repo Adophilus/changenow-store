@@ -1,19 +1,20 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination } from 'swiper'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
 import Layout from '../components/layout/Layout'
 import ProductCarousel from '../components/product/Carousel'
 import 'swiper/css/bundle'
 import '../assets/Banner.scss'
 import '../assets/Product.scss'
 import { useGetProducts, IProducts } from '../hooks/Products'
+import { useGetBanners, IBanners } from '../hooks/Banners'
 
 const Home: React.FC = () => {
   const products: IProducts = useGetProducts()
+  const banners: IBanners = useGetBanners()
 
   return (
     <Layout>
       <article className="banner-announcements">
-        <Swiper
+        {/*<Swiper
           autoplay={{ delay: 3000, pauseOnMouseEnter: true }}
           navigation
           loop={true}
@@ -31,7 +32,14 @@ const Home: React.FC = () => {
           <SwiperSlide>
             <img src="https://dummyimage.com/1024x512/000/fff&text=C" />
           </SwiperSlide>
-        </Swiper>
+        </Swiper>*/}
+        <Splide>
+          {banners.banners.map((banner, index) => (
+            <SplideSlide key={index}>
+              <img src={banner.image} />
+            </SplideSlide>
+          ))}
+        </Splide>
       </article>
       <article className="products-carousel-container">
         <h3 className="products-carousel-heading">Most Popular</h3>
