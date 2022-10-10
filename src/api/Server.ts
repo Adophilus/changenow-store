@@ -1,3 +1,4 @@
+import BannersAPI from './controllers/Banners.js'
 import CategoriesAPI from './controllers/Categories.js'
 import ProductsAPI from './controllers/Products.js'
 import SubCategoriesAPI from './controllers/SubCategories.js'
@@ -58,6 +59,7 @@ export default class AppServer extends Server {
     super.addControllers([
       new CategoriesAPI(props),
       new SubCategoriesAPI(props),
+      new BannersAPI(props),
       new ProductsAPI(props)
     ])
   }
