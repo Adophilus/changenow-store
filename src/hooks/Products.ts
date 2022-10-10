@@ -46,7 +46,6 @@ export const useGetProducts = (): IProducts => {
     mostPopular,
     bestPriced,
     loadMore(category: 'mostPopular' | 'bestPriced') {
-      console.log('loading more products')
       switch (category) {
         case 'mostPopular':
           setMostPopularPage(mostPopularPage + 1)
