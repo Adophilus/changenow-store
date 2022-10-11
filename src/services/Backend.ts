@@ -81,9 +81,9 @@ export const backendApi = createApi({
     }),
     getBanners: builder.query<IListResult, IBannersQueryParams>({
       query(params: IBannersQueryParams) {
-        const query = prepareQuery(params)
+        const _query = prepareQuery(params)
         return {
-          url: `banners?${query.toString()}`
+          url: `banners?${_query.toString()}`
         }
       },
       transformResponse(response: { message: IListResult }): IListResult {
@@ -100,6 +100,19 @@ export const backendApi = createApi({
       transformResponse(response: { message: IListResult }): IListResult {
         return response.message
       }
+    }),
+    getProductsByIds: builder.query<IProduct[], string[]>({
+      query(params: string[]) {
+        console.log(params)
+        const _query = new URLSearchParams()
+        _query.set('ids', params.join(','))
+        return {
+          url: `products/ids?${_query.toString()}`
+        }
+      },
+      transformResponse(response: { message: IProduct[] }): IProduct[] {
+        return response.message
+      }
     })
   })
 })
@@ -108,8 +121,9 @@ export const {
   useGetAllCategoriesQuery,
   useGetAllSubCategoriesQuery,
   useGetBannersQuery,
+  useGetProductQuery,
   useGetProductsQuery,
-  useGetProductQuery
+  useGetProductsByIdsQuery
 } = backendApi
 
 export default backendApi
