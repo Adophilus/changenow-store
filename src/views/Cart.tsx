@@ -111,6 +111,18 @@ const Cart: React.FC = () => {
                 <ProductRow key={product.id} product={product} cart={cart} />
               ))}
             </article>
+            <article>
+              <div className="product-row row">
+                <div className="col-lg-3">
+                  <strong>SUB-TOTAL:</strong>
+                </div>
+                <div className="col-lg-3"></div>
+                <div className="col-lg-3"></div>
+                <div className="col-lg-3">
+                  <strong>100 XRP</strong>
+                </div>
+              </div>
+            </article>
           </>
         )}
       </div>
