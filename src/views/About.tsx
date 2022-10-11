@@ -51,8 +51,8 @@ const About: React.FC = () => {
           <h4>Want to reach out to me? Feel free to use the form below</h4>
         </hgroup>
         <form>
-          <input type="email" placeholder="Email address" />
-          <textarea placeholder="Message"></textarea>
+          <input type="email" required placeholder="Email address" />
+          <textarea required placeholder="Message"></textarea>
           <button type="submit">Send</button>
         </form>
       </article>
