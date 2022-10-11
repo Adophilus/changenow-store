@@ -4,6 +4,7 @@ import ProductCarousel from '../components/product/Carousel'
 import 'swiper/css/bundle'
 import '../assets/Banner.scss'
 import '../assets/Product.scss'
+import '../assets/Loader.scss'
 import { useGetProducts, IProducts } from '../hooks/Products'
 import { useGetBanners, IBanners } from '../hooks/Banners'
 
@@ -14,31 +15,19 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <article className="banner-announcements">
-        {/*<Swiper
-          autoplay={{ delay: 3000, pauseOnMouseEnter: true }}
-          navigation
-          loop={true}
-          pagination={{ clickable: true }}
-          spaceBetween={1}
-          slidesPerView={1}
-          modules={[Pagination, Autoplay]}
-        >
-          <SwiperSlide>
-            <img src="https://dummyimage.com/1024x512/000/fff&text=A" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="https://dummyimage.com/1024x512/000/fff&text=B" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="https://dummyimage.com/1024x512/000/fff&text=C" />
-          </SwiperSlide>
-        </Swiper>*/}
-        <Splide>
-          {banners.banners.map((banner, index) => (
-            <SplideSlide key={index}>
-              <img src={banner.image} />
-            </SplideSlide>
-          ))}
+        <Splide options={{ type: 'loop', autoplay: true, lazyLoad: true }}>
+          {banners.banners.length > 0 ? (
+            banners.banners.map((banner, index) => (
+              <SplideSlide key={index}>
+                <img src={banner.image} />
+              </SplideSlide>
+            ))
+          ) : (
+            <div
+              className="skeleton-loader"
+              style={{ width: '100%', height: '40vh' }}
+            ></div>
+          )}
         </Splide>
       </article>
       <article className="products-carousel-container">
