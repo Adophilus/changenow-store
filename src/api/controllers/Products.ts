@@ -43,6 +43,37 @@ export default class {
     }
   }
 
+  @Get('ids')
+  private async getProductsByIds(req: Request, res: Response) {
+    const ids = (req.query?.ids as string)?.split(',')?.filter((i) => i) ?? []
+    const products = []
+    this.logger.info('ids:', ids)
+
+    if (ids.length === 0)
+      return res.status(StatusCodes.OK).send({ message: [] })
+
+    try {
+      products.push(
+        ...(await Promise.all(
+          ids.map(
+            async (id) =>
+              await this.pocketBaseClient.records.getOne('products', id, {
+                $autoCancel: false
+              })
+          )
+        ))
+      )
+    } catch (err) {
+      this.logger.error(err)
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR })
+    }
+
+    this.logger.info('products:', products)
+    return res.status(StatusCodes.OK).send({ message: products })
+  }
+
   @Get(':uniqueId')
   private async getProductByUniqueIdentifier(req: Request, res: Response) {
     const { uniqueId } = req.params
