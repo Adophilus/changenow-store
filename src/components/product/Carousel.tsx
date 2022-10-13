@@ -1,4 +1,4 @@
-import ProductTab from '../ProductTab'
+import ProductTab from './Tab'
 import { IProduct } from '../../types/Collections'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
