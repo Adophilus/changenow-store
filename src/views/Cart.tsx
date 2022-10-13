@@ -22,7 +22,9 @@ const ProductRow: React.FC<{ product: IProduct; cart: ICartState }> = ({
   }
 
   const increaseProduct = () => {
-    dispatch(addToCart({ product: product.id, quantity: 1 }))
+    dispatch(
+      addToCart({ product: product.id, price: product.price, quantity: 1 })
+    )
   }
 
   return (
@@ -52,14 +54,14 @@ const ProductRow: React.FC<{ product: IProduct; cart: ICartState }> = ({
         <a href="#!" onClick={() => decreaseProduct()}>
           -
         </a>
-        {cart.items[product.id]}
+        {cart.items[product.id].quantity}
         <a href="#!" onClick={() => increaseProduct()}>
           +
         </a>
       </div>
       <div className="col-lg-3">
         <strong>
-          {(product.price as number) * (cart.items[product.id] ?? 0)}
+          {cart.items[product.id].price * cart.items[product.id].quantity} XRP
         </strong>
       </div>
     </div>
@@ -119,7 +121,13 @@ const Cart: React.FC = () => {
                 <div className="col-lg-3"></div>
                 <div className="col-lg-3"></div>
                 <div className="col-lg-3">
-                  <strong>100 XRP</strong>
+                  <strong>
+                    {Object.values(cart.items)
+                      .map((item) => item.price * item.quantity)
+                      .reduce((prev, current) => prev + current, 0)
+                      .toFixed(3)}{' '}
+                    XRP
+                  </strong>
                 </div>
               </div>
             </article>
