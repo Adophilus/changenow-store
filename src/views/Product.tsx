@@ -32,7 +32,9 @@ const Product: React.FC = () => {
     if (inCart) {
       dispatch(removeFromCart({ product: product.id, quantity: 1 }))
     } else {
-      dispatch(addToCart({ product: product.id, quantity: 1 }))
+      dispatch(
+        addToCart({ product: product.id, price: product.price, quantity: 1 })
+      )
     }
   }
 
