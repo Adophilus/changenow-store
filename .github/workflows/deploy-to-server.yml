@@ -9,6 +9,6 @@ jobs:
       - name: Checkout current repo state
         uses: actions/checkout@v2
       - name: Builds and Deploys Node App To Server
-        uses: Adophilus/actions@64633103c7bb442527f588ec6f950fccf7a52c58
+        uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml
         with:
           deploy-path: ${{ secrets.SERVER_DEPLOY_PATH }}
