@@ -10,6 +10,6 @@ jobs:
         uses: actions/checkout@v2
   build-and-deploy:
     needs: checkout-repo
-    uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml
+    uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
     with:
       deploy-path: ${{ secrets.SERVER_DEPLOY_PATH }}
