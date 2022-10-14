@@ -9,6 +9,6 @@ jobs:
       - name: Checkout current repo state
         uses: actions/checkout@v2
       - name: Builds and Deploys Node App To Server
-        uses: Adophilus/actions
+        uses: Adophilus/actions@main
         with:
           deploy-path: ${{ secrets.SERVER_DEPLOY_PATH }}
