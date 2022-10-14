@@ -1,0 +1,12 @@
+---
+name: Build and Deploy To Server
+on:
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Builds and Deploys Node App To Server
+        uses: Adophilus/actions/node/build-and-deploy-node-app.yml
+        with:
+          deploy-path: ${{ secrets.SERVER_DEPLOY_PATH }}
