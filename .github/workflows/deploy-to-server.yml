@@ -7,6 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Builds and Deploys Node App To Server
-        uses: Adophilus/actions/node/build-and-deploy-node-app.yml
+        uses: Adophilus/actions/node-build-and-deploy-node-app.yml
         with:
           deploy-path: ${{ secrets.SERVER_DEPLOY_PATH }}
