@@ -15,7 +15,8 @@ jobs:
     steps:
       - name: list-files
         run: |
-          echo $(ls)
+          echo files list:
+          echo $(ls -l)
   build-and-deploy:
     needs: checkout-repo
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
