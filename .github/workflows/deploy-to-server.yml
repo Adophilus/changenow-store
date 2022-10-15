@@ -9,6 +9,13 @@ jobs:
     steps:
       - name: Checkout current repo state
         uses: actions/checkout@v3
+  run-commands:
+    needs: checkout-repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: list-files
+        run: |
+          echo $(ls)
   build-and-deploy:
     needs: checkout-repo
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
