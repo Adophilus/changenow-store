@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repo state
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
   build-and-deploy:
     needs: checkout-repo
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
