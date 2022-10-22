@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download workspace artifact
-        uses: actions/download-actifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: workspace
       - name: List folder
