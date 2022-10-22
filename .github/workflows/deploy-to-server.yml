@@ -3,8 +3,6 @@ name: Build and Deploy To Server
 on:
 - push
 - workflow_dispatch
-env:
-  WORKSPACE_ARTIFACT: workspace
 jobs:
   checkout-repo:
     runs-on: ubuntu-latest
@@ -14,7 +12,7 @@ jobs:
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.WORKSPACE_ARTIFACT }}
+          name: workspace
           path: .
           retention-days: 1
   build-and-deploy:
@@ -22,7 +20,7 @@ jobs:
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
     with:
       build-script: build
-      artifact-name: ${{ env.WORKSPACE_ARTIFACT }}
+      artifact-name: workspace
     secrets:
       SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
       SSH_HOST: ${{ secrets.SSH_HOST }}
