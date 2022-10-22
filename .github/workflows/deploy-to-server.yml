@@ -9,23 +9,36 @@ jobs:
     steps:
       - name: Checkout current repo state
         uses: actions/checkout@v3
+      - name: Upload workspace as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: workspace
+          path: .
+          retention-days: 1
   build-project:
     needs: checkout-repo
     runs-on: ubuntu-latest
     steps:
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Download workspace artifact
+        uses: actions/download-actifact@v3
         with:
-          node-version: 18
-      - name: Activate pnpm
+          name: workspace
+      - name: List folder
         run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-      - name: Install dependencies
-        run: |
-          pnpm install
-      - name: Build project
-        run: pnpm build
+          ls -la
+      # - name: Setup node
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+      # - name: Activate pnpm
+      #   run: |
+      #     corepack enable
+      #     corepack prepare pnpm@latest --activate
+      # - name: Install dependencies
+      #   run: |
+      #     pnpm install
+      # - name: Build project
+      #   run: pnpm build
   # build-and-deploy:
   #   needs: checkout-repo
   #   uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
