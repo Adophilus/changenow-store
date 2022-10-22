@@ -9,13 +9,26 @@ jobs:
     steps:
       - name: Checkout current repo state
         uses: actions/checkout@v3
-  build-and-deploy:
-    needs: checkout-repo
-    uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
-    with:
-      build-script: build
-    secrets:
-      SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+      - name: Install dependencies
+        run: |
+          pnpm install
+      - name: Build project
+        run: pnpm ${{ inputs.build-script }}
+  # build-and-deploy:
+  #   needs: checkout-repo
+  #   uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
+  #   with:
+  #     build-script: build
+  #   secrets:
+  #     SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
+  #     SSH_HOST: ${{ secrets.SSH_HOST }}
+  #     SSH_USER: ${{ secrets.SSH_USER }}
+  #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
