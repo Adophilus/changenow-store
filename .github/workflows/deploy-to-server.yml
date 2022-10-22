@@ -3,6 +3,8 @@ name: Build and Deploy To Server
 on:
 - push
 - workflow_dispatch
+env:
+  workspace-artifact: workspace
 jobs:
   checkout-repo:
     runs-on: ubuntu-latest
@@ -12,40 +14,17 @@ jobs:
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: workspace
+          name: ${{ env.workspace-artifact }}
           path: .
           retention-days: 1
-  build-project:
+  build-and-deploy:
     needs: checkout-repo
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download workspace artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-      - name: List folder
-        run: |
-          ls -la
-      # - name: Setup node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-      # - name: Activate pnpm
-      #   run: |
-      #     corepack enable
-      #     corepack prepare pnpm@latest --activate
-      # - name: Install dependencies
-      #   run: |
-      #     pnpm install
-      # - name: Build project
-      #   run: pnpm build
-  # build-and-deploy:
-  #   needs: checkout-repo
-  #   uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
-  #   with:
-  #     build-script: build
-  #   secrets:
-  #     SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
-  #     SSH_HOST: ${{ secrets.SSH_HOST }}
-  #     SSH_USER: ${{ secrets.SSH_USER }}
-  #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
+    with:
+      build-script: build
+      artifact-name: ${{ env.workspace-artifact }}
+    secrets:
+      SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
