@@ -21,7 +21,6 @@ jobs:
     with:
       build-script: build
       artifact-name: workspace
-      artifact-store: workspace-built
     secrets:
       SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
       SSH_HOST: ${{ secrets.SSH_HOST }}
