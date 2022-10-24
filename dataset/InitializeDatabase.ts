@@ -44,13 +44,8 @@ const configure = async () => {
 
   let database: IDatabase = { products: [], banners: [] }
 
-  try {
-    const res = await fetch(process.env.DB_URL)
-    database = JSON.parse(await res.text())
-  } catch (err) {
-    console.log('Failed to fetch database!')
-    console.log(err)
-  }
+  const res = await fetch(process.env.DB_URL)
+  database = JSON.parse(await res.text())
 
   return { client, database }
 }
