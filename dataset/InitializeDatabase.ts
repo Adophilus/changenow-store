@@ -1,5 +1,5 @@
 import PocketBase, { Collection } from 'pocketbase'
-import CollectionNames from '../src/api/utils/Collections.js'
+import CollectionNames from '../utils/Collections.js'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
