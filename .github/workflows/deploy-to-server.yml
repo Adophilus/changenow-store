@@ -4,11 +4,14 @@ on:
 - push
 - workflow_dispatch
 jobs:
-  checkout-repo:
+  setup-repo:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repo state
         uses: actions/checkout@v3
+      - name: Add .env.source
+        run: |
+          echo ${{ secrets.ENV_SOURCE }} > .env.source
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
@@ -16,7 +19,7 @@ jobs:
           path: .
           retention-days: 1
   build-and-deploy:
-    needs: checkout-repo
+    needs: setup-repo
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
     with:
       build-script: build
