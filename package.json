@@ -16,6 +16,7 @@
     "dev": "vite --host 127.0.0.1 --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "setup": "bin/setup",
     "backend:dev": "nodemon",
     "backend:build": "tsc --project src/api/tsconfig.json",
     "local:workflow": "bin/workflow.sh"
