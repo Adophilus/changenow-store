@@ -2,6 +2,7 @@ import PocketBase, { Collection, Record } from 'pocketbase'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
+
 interface IProductRecord {
   ProductId: number
   ProductTitle: string
@@ -23,6 +24,8 @@ interface IDatabase {
   products: IProductRecord[]
   banners: IBannerRecord[]
 }
+
+const collections: { [key: string]: Collection } = {}
 
 const configure = async () => {
   if (
@@ -55,11 +58,11 @@ const deleteCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Deleting collections...')
 
   const collections = [
-    'products',
-    'banners',
-    'categories',
-    'subCategories',
-    'productsAnalytics'
+    'changenow_store_products',
+    'changenow_store_banners',
+    'changenow_store_categories',
+    'changenos-store_sub_categories',
+    'changenow_store_products_analytics'
   ]
   for (const collection of collections) {
     try {
@@ -70,11 +73,10 @@ const deleteCollections = async ({ client }: { client: PocketBase }) => {
 
 const createCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Creating collections...')
-  const collections: { [key: string]: Collection } = {}
 
   console.log('Creating categories collection...')
   collections.categories = await client.collections.create({
-    name: 'categories',
+    name: 'changenow_store_categories',
     schema: [
       {
         name: 'name',
@@ -88,7 +90,7 @@ const createCollections = async ({ client }: { client: PocketBase }) => {
 
   console.log('Creating subCategories collection...')
   collections.subCategories = await client.collections.create({
-    name: 'subCategories',
+    name: 'changenow_store_sub_categories',
     schema: [
       {
         name: 'name',
@@ -102,7 +104,7 @@ const createCollections = async ({ client }: { client: PocketBase }) => {
 
   console.log('Creating productsAnalytics collection...')
   collections.productsAnalytics = await client.collections.create({
-    name: 'productsAnalytics',
+    name: 'changenow_store_products_analytics',
     schema: [
       {
         name: 'views',
@@ -117,7 +119,7 @@ const createCollections = async ({ client }: { client: PocketBase }) => {
 
   console.log('Creating banners collection...')
   collections.banners = await client.collections.create({
-    name: 'banners',
+    name: 'changenow_store_banners',
     schema: [
       {
         name: 'image',
@@ -129,7 +131,7 @@ const createCollections = async ({ client }: { client: PocketBase }) => {
 
   console.log('Creating products collection...')
   collections.products = await client.collections.create({
-    name: 'products',
+    name: 'changenow_store_products',
     schema: [
       {
         name: 'sku',
@@ -233,26 +235,26 @@ const importProducts = async ({
   for (let record of products) {
     let category = await collectionToID(
       categories,
-      'categories',
+      collections.categories.name,
       record.Category,
       { client }
     )
     let subCategory = await collectionToID(
       subCategories,
-      'subCategories',
+      collections.subCategories.name,
       record.SubCategory,
       { client }
     )
 
     const productAnalyticsRecord = await client.records.create(
-      'productsAnalytics',
+      collections.productsAnalytics.name,
       {
         views: 0,
         sales: 0
       }
     )
 
-    await client.records.create('products', {
+    await client.records.create(collections.products.name, {
       sku: record.ProductId,
       title: record.ProductTitle,
       price: record.Price,
