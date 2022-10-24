@@ -1,3 +1,4 @@
+import CollectionNames from '../utils/Collections.js'
 import { Controller, Get } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
@@ -29,7 +30,7 @@ export default class {
 
     try {
       const banners = await this.pocketBaseClient.records.getList(
-        'banners',
+        CollectionNames.banners,
         parseInt(String(page) ?? '1'),
         parseInt(String(perPage) ?? '10'),
         Object.assign({ $autoCancel: false }, options)
@@ -52,9 +53,13 @@ export default class {
         .send({ error: "No 'id' specified" })
 
     try {
-      const banner = await this.pocketBaseClient.records.getOne('banners', id, {
-        $autoCancel: false
-      })
+      const banner = await this.pocketBaseClient.records.getOne(
+        CollectionNames.banners,
+        id,
+        {
+          $autoCancel: false
+        }
+      )
 
       return res.status(StatusCodes.OK).send({ message: banner })
     } catch (err) {

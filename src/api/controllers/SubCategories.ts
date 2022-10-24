@@ -1,3 +1,4 @@
+import CollectionNames from '../utils/Collections.js'
 import { Controller, Get } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
@@ -18,7 +19,7 @@ export default class {
   private async getSubCategories(req: Request, res: Response) {
     try {
       const subCategories = await this.pocketBaseClient.records.getFullList(
-        'subCategories',
+        CollectionNames.subCategories,
         100,
         { $autoCancel: false }
       )
@@ -36,7 +37,7 @@ export default class {
     const { subCategoryId } = req.params
     try {
       const subCategory = await this.pocketBaseClient.records.getOne(
-        'subCategories',
+        CollectionNames.subCategories,
         subCategoryId,
         { $autoCancel: false }
       )

@@ -1,3 +1,4 @@
+import CollectionNames from '../utils/Collections.js'
 import { Controller, Get } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
@@ -29,7 +30,7 @@ export default class {
 
     try {
       const products = await this.pocketBaseClient.records.getList(
-        'products',
+        CollectionNames.products,
         parseInt(String(page) ?? '1'),
         parseInt(String(perPage) ?? '10'),
         Object.assign({ $autoCancel: false }, options)
@@ -57,9 +58,13 @@ export default class {
         ...(await Promise.all(
           ids.map(
             async (id) =>
-              await this.pocketBaseClient.records.getOne('products', id, {
-                $autoCancel: false
-              })
+              await this.pocketBaseClient.records.getOne(
+                CollectionNames.products,
+                id,
+                {
+                  $autoCancel: false
+                }
+              )
           )
         ))
       )
@@ -93,7 +98,7 @@ export default class {
 
     try {
       const products = await this.pocketBaseClient.records.getList(
-        'products',
+        CollectionNames.products,
         1,
         1,
         { $autoCancel: false, expand: 'analytics', filter }
@@ -107,7 +112,7 @@ export default class {
       const product = products.items[0]
 
       await this.pocketBaseClient.records.update(
-        'productsAnalytics',
+        CollectionNames.productsAnalytics,
         product.analytics,
         {
           views: product['@expand'].analytics.views + 1
