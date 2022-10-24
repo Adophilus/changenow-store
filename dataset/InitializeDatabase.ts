@@ -1,4 +1,5 @@
-import PocketBase, { Collection, Record } from 'pocketbase'
+import PocketBase, { Collection } from 'pocketbase'
+import CollectionNames from '../src/api/utils/Collections.js'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -57,16 +58,9 @@ const configure = async () => {
 const deleteCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Deleting collections...')
 
-  const collections = [
-    'changenow_store_products',
-    'changenow_store_banners',
-    'changenow_store_categories',
-    'changenos-store_sub_categories',
-    'changenow_store_products_analytics'
-  ]
-  for (const collection of collections) {
+  for (const collectionName of Object.values(CollectionNames)) {
     try {
-      await client.collections.delete(collection)
+      await client.collections.delete(collectionName)
     } catch (err) {}
   }
 }
@@ -74,136 +68,151 @@ const deleteCollections = async ({ client }: { client: PocketBase }) => {
 const createCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Creating collections...')
 
-  console.log('Creating categories collection...')
-  collections.categories = await client.collections.create({
-    name: 'changenow_store_categories',
-    schema: [
-      {
-        name: 'name',
-        type: 'text',
-        required: true
-      }
-    ],
-    listRule: '',
-    viewRule: ''
-  })
+  for (const collectionName of Object.values(CollectionNames)) {
+    switch (collectionName) {
+      case CollectionNames.categories:
+        console.log('Creating categories collection...')
+        collections.categories = await client.collections.create({
+          name: collectionName,
+          schema: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true
+            }
+          ],
+          listRule: '',
+          viewRule: ''
+        })
+        break
+      case CollectionNames.subCategories:
+        console.log('Creating subCategories collection...')
+        collections.subCategories = await client.collections.create({
+          name: collectionName,
+          schema: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true
+            }
+          ],
+          listRule: '',
+          viewRule: ''
+        })
+        break
 
-  console.log('Creating subCategories collection...')
-  collections.subCategories = await client.collections.create({
-    name: 'changenow_store_sub_categories',
-    schema: [
-      {
-        name: 'name',
-        type: 'text',
-        required: true
-      }
-    ],
-    listRule: '',
-    viewRule: ''
-  })
+      case CollectionNames.productsAnalytics:
+        console.log('Creating productsAnalytics collection...')
+        collections.productsAnalytics = await client.collections.create({
+          name: collectionName,
+          schema: [
+            {
+              name: 'views',
+              type: 'number'
+            },
+            {
+              name: 'sales',
+              type: 'number'
+            }
+          ]
+        })
+        break
 
-  console.log('Creating productsAnalytics collection...')
-  collections.productsAnalytics = await client.collections.create({
-    name: 'changenow_store_products_analytics',
-    schema: [
-      {
-        name: 'views',
-        type: 'number'
-      },
-      {
-        name: 'sales',
-        type: 'number'
-      }
-    ]
-  })
-
-  console.log('Creating banners collection...')
-  collections.banners = await client.collections.create({
-    name: 'changenow_store_banners',
-    schema: [
-      {
-        name: 'image',
-        type: 'text',
-        required: true
-      }
-    ]
-  })
-
-  console.log('Creating products collection...')
-  collections.products = await client.collections.create({
-    name: 'changenow_store_products',
-    schema: [
-      {
-        name: 'sku',
-        type: 'number',
-        required: true
-      },
-      {
-        name: 'title',
-        type: 'text',
-        required: true
-      },
-      {
-        name: 'price',
-        type: 'number',
-        required: true
-      },
-      {
-        name: 'category',
-        type: 'relation',
-        required: true,
-        options: {
-          collectionId: collections.categories.id,
-          maxSelect: 1
-        }
-      },
-      {
-        name: 'subCategory',
-        type: 'relation',
-        required: true,
-        options: {
-          collectionId: collections.subCategories.id,
-          maxSelect: 5
-        }
-      },
-      {
-        name: 'analytics',
-        type: 'relation',
-        required: true,
-        options: {
-          collectionId: collections.productsAnalytics.id,
-          maxSelect: 1
-        }
-      },
-      {
-        name: 'type',
-        type: 'text',
-        required: true
-      },
-      {
-        name: 'gender',
-        type: 'text',
-        required: true
-      },
-      {
-        name: 'color',
-        type: 'text',
-        required: true
-      },
-      {
-        name: 'usage',
-        type: 'text',
-        required: true
-      },
-      {
-        name: 'image',
-        type: 'text',
-        required: true
-      }
-    ],
-    listRule: '',
-    viewRule: ''
-  })
+      case CollectionNames.banners:
+        console.log('Creating banners collection...')
+        collections.banners = await client.collections.create({
+          name: collectionName,
+          schema: [
+            {
+              name: 'image',
+              type: 'text',
+              required: true
+            }
+          ]
+        })
+        break
+      case CollectionNames.products:
+        console.log('Creating products collection...')
+        collections.products = await client.collections.create({
+          name: collectionName,
+          schema: [
+            {
+              name: 'sku',
+              type: 'number',
+              required: true
+            },
+            {
+              name: 'title',
+              type: 'text',
+              required: true
+            },
+            {
+              name: 'price',
+              type: 'number',
+              required: true
+            },
+            {
+              name: 'category',
+              type: 'relation',
+              required: true,
+              options: {
+                collectionId: collections.categories.id,
+                maxSelect: 1
+              }
+            },
+            {
+              name: 'subCategory',
+              type: 'relation',
+              required: true,
+              options: {
+                collectionId: collections.subCategories.id,
+                maxSelect: 5
+              }
+            },
+            {
+              name: 'analytics',
+              type: 'relation',
+              required: true,
+              options: {
+                collectionId: collections.productsAnalytics.id,
+                maxSelect: 1
+              }
+            },
+            {
+              name: 'type',
+              type: 'text',
+              required: true
+            },
+            {
+              name: 'gender',
+              type: 'text',
+              required: true
+            },
+            {
+              name: 'color',
+              type: 'text',
+              required: true
+            },
+            {
+              name: 'usage',
+              type: 'text',
+              required: true
+            },
+            {
+              name: 'image',
+              type: 'text',
+              required: true
+            }
+          ],
+          listRule: '',
+          viewRule: ''
+        })
+        break
+      default:
+        console.log(`Doing nothing for collection ${collectionName}`)
+        break
+    }
+  }
 }
 
 const collectionToID = async (
@@ -278,7 +287,7 @@ const importBanners = async ({
   banners: IBannerRecord[]
 }) => {
   for (let banner of banners) {
-    await client.records.create('banners', {
+    await client.records.create(collections.banners.name, {
       image: banner.image
     })
   }
