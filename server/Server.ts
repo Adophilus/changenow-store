@@ -16,7 +16,7 @@ dotenv.config()
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
-  private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
+  private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_SERVER)
 
   constructor() {
     super()
