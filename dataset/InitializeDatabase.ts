@@ -53,10 +53,12 @@ const configure = async () => {
 const deleteCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Deleting collections...')
 
-  for (const collectionName of Object.values(CollectionNames)) {
-    try {
-      await client.collections.delete(collectionName)
-    } catch (err) {}
+  for (let i = 0; i < 5; i++) {
+    for (const collectionName of Object.values(CollectionNames)) {
+      try {
+        await client.collections.delete(collectionName)
+      } catch (err) {}
+    }
   }
 }
 
