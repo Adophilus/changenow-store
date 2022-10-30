@@ -12,6 +12,7 @@ jobs:
       - name: Add .env.source
         run: |
           echo ${{ secrets.ENV_SOURCE }} > .env.source
+          echo ${{ secrets.ENV_SOURCE }} > .env.test
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
