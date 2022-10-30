@@ -1,4 +1,4 @@
-import SaleScheduler from '../utils/SaleScheduler.js'
+import SaleScheduler from '@/utils/SaleScheduler.js'
 import { Controller, Get, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
