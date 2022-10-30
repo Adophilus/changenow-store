@@ -19,7 +19,7 @@
     "preview": "vite preview",
     "setup": "bin/setup",
     "backend:dev": "nodemon",
-    "backend:build": "tsc --project src/api/tsconfig.json",
+    "backend:build": "tsc --project server/tsconfig.json",
     "local:workflow": "bin/workflow.sh"
   },
   "dependencies": {

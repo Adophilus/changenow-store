@@ -1,12 +1,16 @@
 {
   "include": ["./run.ts"],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["../*"]
+    },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowUnreachableCode": false,
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ESNext",
-    "outDir": "../../build/api"
+    "outDir": "../build"
   }
 }
