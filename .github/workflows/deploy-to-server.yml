@@ -22,7 +22,7 @@ jobs:
     needs: setup-repo
     uses: Adophilus/actions/.github/workflows/node-build-and-deploy-ssh.yml@main
     with:
-      build-script: build
+      build-script: build:all
       artifact-name: workspace
     secrets:
       SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
