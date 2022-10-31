@@ -19,7 +19,7 @@
     "preview": "vite preview",
     "setup": "bin/setup",
     "backend:dev": "nodemon",
-    "backend:build": "tsc --project server/tsconfig.json",
+    "backend:build": "ttsc --project server/tsconfig.json",
     "local:workflow": "bin/workflow.sh"
   },
   "dependencies": {
@@ -73,7 +73,9 @@
     "eslint-plugin-react": "^7.31.8",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
+    "ttypescript": "^1.5.13",
     "typescript": "*",
+    "typescript-transform-paths": "^3.4.4",
     "vite": "^3.1.0"
   }
 }

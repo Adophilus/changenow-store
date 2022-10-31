@@ -5,6 +5,9 @@
     "paths": {
       "@/*": ["../*"]
     },
+    "plugins": [
+      { "transform": "typescript-transform-paths" }
+    ],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowUnreachableCode": false,
