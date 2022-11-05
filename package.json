@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "build/api/Server.js",
+  "main": "build/server/main.js",
   "scripts": {
     "db:start": "env $(cat .env | xargs) bin/db-start",
     "db:build": "tsc --project ./dataset/tsconfig.json",
@@ -50,6 +50,7 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
+    "@build-script/typescript-transformer-dual-package": "^2.0.2",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",

@@ -6,7 +6,10 @@
       "@/*": ["../*"]
     },
     "plugins": [
-      { "transform": "typescript-transform-paths" }
+      { "transform": "typescript-transform-paths" },
+      {
+        "transform": "@build-script/typescript-transformer-dual-package"
+      }
     ],
     "esModuleInterop": true,
     "experimentalDecorators": true,

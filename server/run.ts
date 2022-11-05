@@ -1,4 +1,4 @@
-import Server from './Server.js'
+import Server from './main'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
