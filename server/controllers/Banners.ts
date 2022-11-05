@@ -1,4 +1,4 @@
-import CollectionNames from '../../utils/Collections.js'
+import CollectionNames from '@/utils/Collections'
 import { Controller, Get } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
