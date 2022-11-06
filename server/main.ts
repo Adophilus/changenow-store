@@ -31,7 +31,7 @@ export default class AppServer extends Server {
     this.pocketBaseClient.admins
       .authViaEmail(
         process.env.POCKETBASE_ADMIN_EMAIL,
-        process.env.POCKETBASE_ADMIN_PASS
+        process.env.POCKETBASE_ADMIN_PASSWORD
       )
       .catch((err) => this.logger.error(err))
   }

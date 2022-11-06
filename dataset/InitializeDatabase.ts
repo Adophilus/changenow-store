@@ -39,7 +39,7 @@ const configure = async () => {
   const client = new PocketBase(process.env.POCKETBASE_URL)
   await client.admins.authViaEmail(
     process.env.POCKETBASE_ADMIN_EMAIL,
-    process.env.POCKETBASE_ADMIN_PASS
+    process.env.POCKETBASE_ADMIN_PASSWORD
   )
 
   let database: IDatabase = { products: [], banners: [] }
