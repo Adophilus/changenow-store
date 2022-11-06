@@ -47,7 +47,7 @@ export default class AppServer extends Server {
 
   public setupRoutes(): void {
     this.app.get('*', (_, res) =>
-      res.sendFile(path.join(process.cwd(), 'frontend/index.html'))
+      res.sendFile(path.join(process.cwd(), 'build/frontend/index.html'))
     )
   }
 
