@@ -1,7 +1,5 @@
 import Server from './main'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
+import config from '@/utils/Config'
 
 const server = new Server()
-server.start(parseInt(process.env.BACKEND_SERVER_PORT))
+server.start(parseInt(config.server.port))
