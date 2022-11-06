@@ -31,7 +31,7 @@ const collections: { [key: string]: Collection } = {}
 const configure = async () => {
   if (
     process.env.POCKETBASE_ADMIN_EMAIL == null ||
-    process.env.POCKETBASE_ADMIN_PASS == null
+    process.env.POCKETBASE_ADMIN_PASSWORD == null
   )
     throw new Error('Invalid admin credentials!')
   if (process.env.DB_URL == null) throw new Error('Invalid database URL!')
