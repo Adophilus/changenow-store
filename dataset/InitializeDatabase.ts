@@ -50,13 +50,34 @@ const configure = async () => {
 
 const deleteCollections = async ({ client }: { client: PocketBase }) => {
   console.log('Deleting collections...')
+  const collections = Object.values(CollectionNames)
+  const deletedCollections: string[] = []
 
-  for (let i = 0; i < 5; i++) {
-    for (const collectionName of Object.values(CollectionNames)) {
-      try {
-        await client.collections.delete(collectionName)
-      } catch (err) {}
+  for (let i = 0; i < collections.length; i++) {
+    const collectionName = collections[i]
+    if (collectionName in deletedCollections) continue
+    await deleteCollection({ client, collectionName })
+  }
+}
+
+const deleteCollection = async ({
+  client,
+  collectionName
+}: {
+  client: PocketBase
+  collectionName: string
+}) => {
+  try {
+    const collection = await client.collections.getOne(collectionName)
+    for (const schema of collection.schema) {
+      if (schema.type === 'relation')
+        await deleteCollection({ client, collectionName: schema.name })
     }
+
+    await client.collections.delete(collectionName)
+  } catch (err) {
+    console.log(`Failed to delete collection ${collectionName}`)
+    console.log(err)
   }
 }
 
@@ -301,9 +322,14 @@ const importData = async ({
 
 const run = async () => {
   const { client, database } = await configure()
+
+  const collection = await client.collections.getOne('products')
+  console.log(collection)
+  /*
   await deleteCollections({ client })
   await createCollections({ client })
   await importData({ client, database })
+  */
 
   console.log('all done!')
 }
