@@ -323,13 +323,9 @@ const importData = async ({
 const run = async () => {
   const { client, database } = await configure()
 
-  const collection = await client.collections.getOne('products')
-  console.log(collection)
-  /*
   await deleteCollections({ client })
   await createCollections({ client })
   await importData({ client, database })
-  */
 
   console.log('all done!')
 }
