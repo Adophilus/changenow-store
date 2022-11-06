@@ -11,6 +11,7 @@
         "transform": "@build-script/typescript-transformer-dual-package"
       }
     ],
+    "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowUnreachableCode": false,
