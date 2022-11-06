@@ -6,7 +6,7 @@ export default () => {
   return defineConfig({
     plugins: [react()],
     build: {
-      outDir: 'frontend'
+      outDir: 'build/frontend'
     },
     server: {
       proxy: {
