@@ -1,6 +1,6 @@
-import { getEnv } from './utils/Env'
+import { getEnv } from './Env'
 
-const ENV = getEnv({ env : { dir: '..'}})
+const { ENV } = getEnv({ env : { dir: '../..'}})
 
 export default {
   db: {
