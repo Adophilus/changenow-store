@@ -10,7 +10,13 @@ export default class {
   private readonly logger: Logger
   private readonly pocketBaseClient: pocketbase
 
-  constructor({ pocketBaseClient, logger }) {
+  constructor({
+    pocketBaseClient,
+    logger
+  }: {
+    pocketBaseClient: pocketbase
+    logger: Logger
+  }) {
     this.logger = logger.getChildLogger({ name: 'SubCategoriesAPI' })
     this.pocketBaseClient = pocketBaseClient
   }
