@@ -32,7 +32,7 @@ const processEnv = (
 export const getEnv = ({
   script,
   env
-}: { script: string | undefined, env?: { dir?: string }}): {
+}: { script?: string, env?: { dir?: string }}): {
   CURRENT_SCRIPT: string
   CURRENT_SCRIPT_DIR: string
   ENV: IEnvVariables
