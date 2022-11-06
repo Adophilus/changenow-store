@@ -1,8 +1,6 @@
 import PocketBase, { Collection } from 'pocketbase'
-import CollectionNames from '../utils/Collections.js'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
+import CollectionNames from '@/utils/Collections.js'
+import config from '@/utils/Config'
 
 interface IProductRecord {
   ProductId: number
@@ -30,21 +28,21 @@ const collections: { [key: string]: Collection } = {}
 
 const configure = async () => {
   if (
-    process.env.POCKETBASE_ADMIN_EMAIL == null ||
-    process.env.POCKETBASE_ADMIN_PASSWORD == null
+    config.pocketbase.admin.email == null ||
+    config.pocketbase.admin.password == null
   )
     throw new Error('Invalid admin credentials!')
-  if (process.env.DB_URL == null) throw new Error('Invalid database URL!')
+  if (config.db.url == null) throw new Error('Invalid database URL!')
 
-  const client = new PocketBase(process.env.POCKETBASE_URL)
+  const client = new PocketBase(config.pocketbase.url)
   await client.admins.authViaEmail(
-    process.env.POCKETBASE_ADMIN_EMAIL,
-    process.env.POCKETBASE_ADMIN_PASSWORD
+    config.pocketbase.admin.email,
+    config.pocketbase.admin.password
   )
 
   let database: IDatabase = { products: [], banners: [] }
 
-  const res = await fetch(process.env.DB_URL)
+  const res = await fetch(config.db.url)
   database = JSON.parse(await res.text())
 
   return { client, database }

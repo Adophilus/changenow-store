@@ -1,6 +1,10 @@
 {
   "include": ["./InitializeDatabase.ts"],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["../*"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

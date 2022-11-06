@@ -5,18 +5,16 @@ import SubCategoriesAPI from './controllers/SubCategories'
 import { Server } from '@overnightjs/core'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import * as dotenv from 'dotenv'
 import * as express from 'express'
 import morgan from 'morgan'
 import path from 'path'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
-
-dotenv.config()
+import config from '@/utils/Config'
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
-  private readonly pocketBaseClient = new PocketBase(process.env.POCKETBASE_URL)
+  private readonly pocketBaseClient = new PocketBase(config.pocketbase.url)
 
   constructor() {
     super()
@@ -30,8 +28,8 @@ export default class AppServer extends Server {
   public setupConfig(): void {
     this.pocketBaseClient.admins
       .authViaEmail(
-        process.env.POCKETBASE_ADMIN_EMAIL,
-        process.env.POCKETBASE_ADMIN_PASSWORD
+        config.pocketbase.admin.email,
+        config.pocketbase.admin.password
       )
       .catch((err) => this.logger.error(err))
   }
