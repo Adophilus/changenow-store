@@ -8,7 +8,6 @@
     "db:start": "env $(cat .env | xargs) bin/db-start",
     "db:build": "ttsc --project ./dataset/tsconfig.json",
     "db:init": "node build/dataset/InitializeDatabase.js",
-    "db:setup": "pnpm db:build && pnpm db:init",
     "format:watch": "cd .scripts && pnpm format:watch ..",
     "lint:watch": "cd .scripts && pnpm lint:watch ..",
     "format:lint:watch": "cd .scripts && pnpm format:lint:watch ../src",

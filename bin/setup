@@ -1,2 +1,4 @@
 #! /usr/bin/env bash
-pnpm db:setup
+
+pnpm build
+pnpm db:init
