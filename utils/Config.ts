@@ -1,6 +1,6 @@
 import { getEnv } from './Env'
 
-const { ENV } = getEnv({ env: { dir: '../..' } })
+const { ENV, CURRENT_SCRIPT_DIR } = getEnv({ env: { dir: '../..' } })
 
 export default {
   db: {
@@ -8,6 +8,9 @@ export default {
   },
   server: {
     port: ENV.BACKEND_SERVER_PORT
+  },
+  project: {
+    baseDir: path.join(CURRENT_SCRIPT_DIR, '..')
   },
   pocketbase: {
     url: ENV.POCKETBASE_URL,
