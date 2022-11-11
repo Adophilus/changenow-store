@@ -10,7 +10,8 @@ export default {
     port: ENV.BACKEND_SERVER_PORT
   },
   project: {
-    baseDir: path.join(CURRENT_SCRIPT_DIR, '..')
+    baseDir: path.join(CURRENT_SCRIPT_DIR, '..'),
+    frontendIndex: path.join(CURRENT_SCRIPT_DIR, '..', 'build/frontend/index.html')
   },
   pocketbase: {
     url: ENV.POCKETBASE_URL,
