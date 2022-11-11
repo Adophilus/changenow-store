@@ -1,4 +1,5 @@
 import { getEnv } from './Env'
+import path from 'path'
 
 const { ENV, CURRENT_SCRIPT_DIR } = getEnv({ env: { dir: '../..' } })
 
