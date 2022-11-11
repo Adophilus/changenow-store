@@ -11,6 +11,9 @@ import path from 'path'
 import PocketBase from 'pocketbase'
 import { Logger } from 'tslog'
 import config from '@/utils/Config'
+import { getEnv } from '@/utils/Env'
+
+const { CURRENT_SCRIPT_DIR } = getEnv()
 
 export default class AppServer extends Server {
   private readonly logger = new Logger({ name: 'EStore' })
@@ -45,7 +48,7 @@ export default class AppServer extends Server {
 
   public setupRoutes(): void {
     this.app.get('*', (_, res) =>
-      res.sendFile(path.join(process.cwd(), 'build/frontend/index.html'))
+      res.sendFile(path.join(CURRENT_SCRIPT_DIR, 'build/frontend/index.html'))
     )
   }
 
