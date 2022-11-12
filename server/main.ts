@@ -49,7 +49,7 @@ export default class AppServer extends Server {
         returnFile = req.originalUrl.split('?').shift()
       else
         returnFile = '/index.html'
-      res.sendFile(returnFile, { root: config.project.frontendDir })
+      return res.sendFile(returnFile, { root: config.project.frontendDir })
     })
   }
 
