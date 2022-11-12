@@ -46,7 +46,7 @@ export default class AppServer extends Server {
     this.app.get('*', (req, res) => {
       let returnFile: string
       if (req.originalUrl.startsWith("/assets/"))
-        returnFile = req.originalUrl.split('?').shift()
+        returnFile = String(req.originalUrl.split('?').shift())
       else
         returnFile = '/index.html'
       return res.sendFile(returnFile, { root: config.project.frontendDir })
