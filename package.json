@@ -16,7 +16,7 @@
     "build": "tsc && vite build",
     "build:all": "pnpm build && pnpm db:build && pnpm backend:build",
     "preview": "vite preview",
-    "project:setup": "bin/setup",
+    "project:setup": "chmod +x bin/setup && bin/setup",
     "backend:dev": "nodemon",
     "backend:build": "ttsc --project server/tsconfig.json",
     "local:workflow": "bin/workflow.sh"
