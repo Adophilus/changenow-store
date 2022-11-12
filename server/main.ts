@@ -43,9 +43,14 @@ export default class AppServer extends Server {
   }
 
   public setupRoutes(): void {
-    this.app.get('*', (_, res) =>
-      res.sendFile("frontend/index.html", { root: config.project.rootDir })
-    )
+    this.app.get('*', (_, res) => {
+      let returnFile: string
+      if (returnFile.startsWith("/assets"))
+        returnFile = req.originalUrl.split('?').shift()
+      else
+        returnFile = '/index.html'
+      res.sendFile(returnFile, { root: config.project.frontendDir })
+    })
   }
 
   public setupControllers(): void {
