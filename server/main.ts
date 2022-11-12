@@ -51,6 +51,7 @@ export default class AppServer extends Server {
       else{
         returnFile = '/index.html'
       }
+      this.logger.info(`Return File: ${returnFile}`)
       return res.sendFile(returnFile, { root: config.project.frontendDir })
     })
   }
