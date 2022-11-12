@@ -45,10 +45,12 @@ export default class AppServer extends Server {
   public setupRoutes(): void {
     this.app.get('*', (req, res) => {
       let returnFile: string
-      if (req.originalUrl.startsWith("/assets/"))
+      if (req.originalUrl.match("/assets/") != null) {
         returnFile = String(req.originalUrl.split('?').shift())
-      else
+      }
+      else{
         returnFile = '/index.html'
+      }
       return res.sendFile(returnFile, { root: config.project.frontendDir })
     })
   }
