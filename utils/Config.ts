@@ -23,5 +23,4 @@ const Config = {
     }
   }
 }
-console.log(Config)
 export default Config
