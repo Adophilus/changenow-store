@@ -56,27 +56,10 @@ const deleteCollections = async ({ client }: { client: PocketBase }) => {
     const collectionName = collections[i]
     try {
       await client.collections.delete(collectionName)
-    } catch (err) {}
-  }
-}
-
-const deleteCollection = async ({
-  client,
-  collectionName
-}: {
-  client: PocketBase
-  collectionName: string
-}) => {
-  try {
-    const collection = await client.collections.getOne(collectionName)
-    for (const schema of collection.schema) {
-      await deleteCollection({ client, collectionName: schema.name })
+    } catch (err) {
+      console.log(`Failed to delete collection ${collectionName}`)
+      console.log(err)
     }
-
-    await client.collections.delete(collectionName)
-  } catch (err) {
-    console.log(`Failed to delete collection ${collectionName}`)
-    console.log(err)
   }
 }
 
