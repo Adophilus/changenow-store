@@ -45,7 +45,7 @@ export default class AppServer extends Server {
   public setupRoutes(): void {
     this.app.get('*', (req, res) => {
       let returnFile: string
-      if (req.originalUrl.match("/assets/") != null) {
+      if (req.originalUrl.match(/\/assets\/|\/api\//) != null) {
         returnFile = String(req.originalUrl.split('?').shift()).replace(`${config.project.baseUrl}`, '/')
       }
       else{
