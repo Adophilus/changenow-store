@@ -12,6 +12,9 @@ jobs:
       - name: Add .env.source
         run: |
           echo "${{ secrets.ENV_SOURCE }}" > .env.source
+      - name: Add .env
+        run: |
+          echo "${{ github.repo }}" > .env
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
