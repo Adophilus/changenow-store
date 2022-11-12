@@ -46,7 +46,7 @@ export default class AppServer extends Server {
     this.app.get('*', (req, res) => {
       let returnFile: string
       if (req.originalUrl.match("/assets/") != null) {
-        returnFile = String(req.originalUrl.split('?').shift())
+        returnFile = String(req.originalUrl.split('?').shift()).replace(`${config.project.baseUrl}`, '')
       }
       else{
         returnFile = '/index.html'

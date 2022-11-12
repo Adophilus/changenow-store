@@ -12,6 +12,7 @@ export default {
   },
   project: {
     rootDir: path.join(CURRENT_SCRIPT_DIR, '..'),
+    baseUrl: ENV.BASE_URL,
     frontendDir: path.join(CURRENT_SCRIPT_DIR, '../frontend')
   },
   pocketbase: {
