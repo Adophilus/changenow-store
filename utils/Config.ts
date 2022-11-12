@@ -3,6 +3,8 @@ import path from 'path'
 
 const { ENV, CURRENT_SCRIPT_DIR } = getEnv({ env: { dir: '../..' } })
 
+console.log(CURRENT_SCRIPT_DIR)
+
 export default {
   db: {
     url: ENV.DB_URL
