@@ -3,9 +3,7 @@ import path from 'path'
 
 const { ENV, CURRENT_SCRIPT_DIR } = getEnv({ env: { dir: '../..' } })
 
-console.log(CURRENT_SCRIPT_DIR)
-
-export default {
+const Config = {
   db: {
     url: ENV.DB_URL
   },
@@ -25,3 +23,5 @@ export default {
     }
   }
 }
+console.log(Config)
+export default Config
