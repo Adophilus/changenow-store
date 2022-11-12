@@ -12,7 +12,7 @@
     "lint:watch": "cd .scripts && pnpm lint:watch ..",
     "format:lint:watch": "cd .scripts && pnpm format:lint:watch ../src",
     "format:prettier": "cd .scripts && pnpm format:prettier ../src",
-    "frontend:dev": "vite --host 127.0.0.1 --port 3000",
+    "frontend:dev": "vite --host 127.0.0.1 --port 3000 --config ./client/vite.config.ts",
     "frontend:build": "tsc --project client/tsconfig.json && vite build",
     "build:all": "pnpm frontend:build && pnpm db:build && pnpm backend:build",
     "frontend:preview": "vite preview",
