@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default () => {
   return defineConfig({
     plugins: [react()],
+    build: process.env.BASE_URL,
     build: {
       outDir: 'build/frontend'
     },

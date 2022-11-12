@@ -14,7 +14,7 @@ import StoreProductView from './views/Product'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/about" element={<AboutView />} />
