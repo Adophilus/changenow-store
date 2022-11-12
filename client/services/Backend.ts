@@ -71,6 +71,9 @@ export const backendApi = createApi({
           id = params.sku.toString()
           _query.set('type', 'sku')
         }
+        else {
+          id = ''
+        }
         return {
           url: `products/${id}?${_query.toString()}`
         }
