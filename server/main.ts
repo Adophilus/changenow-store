@@ -45,7 +45,7 @@ export default class AppServer extends Server {
   public setupRoutes(): void {
     this.app.get('*', (_, res) => {
       let returnFile: string
-      if (returnFile.startsWith("/assets"))
+      if (req.originalUrl.startsWith("/assets/"))
         returnFile = req.originalUrl.split('?').shift()
       else
         returnFile = '/index.html'
