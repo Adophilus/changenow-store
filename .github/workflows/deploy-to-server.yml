@@ -12,9 +12,6 @@ jobs:
       - name: Add .env.source
         run: |
           echo "${{ secrets.ENV_SOURCE }}" > .env.source
-      - name: Add .env
-        run: |
-          echo "BASE_URL=/${{ github.repo }}" > .env
       - name: Upload workspace as artifact
         uses: actions/upload-artifact@v3
         with:
@@ -32,6 +29,8 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    env:
+      BASE_URL: ${{ github.repo }}
   setup-app:
     needs: build-and-deploy
     uses: Adophilus/actions/.github/workflows/node-setup-app.yml@main
