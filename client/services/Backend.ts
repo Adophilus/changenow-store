@@ -42,7 +42,7 @@ const prepareQuery = (
 
 export const backendApi = createApi({
   reducerPath: 'backendApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.BASE_URL}/api/` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.BASE_URL}api/` }),
   endpoints: (builder) => ({
     getAllCategories: builder.query<ICategory[], null>({
       query() {
