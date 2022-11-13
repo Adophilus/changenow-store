@@ -1,11 +1,9 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
+import Config from '@/utils/Config'
 
 export default {
-  banners: `${process.env.POCKETBASE_TABLE_PREFIX}banners`,
-  categories: `${process.env.POCKETBASE_TABLE_PREFIX}categories`,
-  subCategories: `${process.env.POCKETBASE_TABLE_PREFIX}subCategories`,
-  productsAnalytics: `${process.env.POCKETBASE_TABLE_PREFIX}productsAnalytics`,
-  products: `${process.env.POCKETBASE_TABLE_PREFIX}products`
+  banners: `${Config.pocketbase.tablePrefix}banners`,
+  categories: `${Config.pocketbase.tablePrefix}categories`,
+  subCategories: `${Config.pocketbase.tablePrefix}subCategories`,
+  productsAnalytics: `${Config.pocketbase.tablePrefix}productsAnalytics`,
+  products: `${Config.pocketbase.tablePrefix}products`
 }

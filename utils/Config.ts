@@ -20,7 +20,8 @@ const Config = {
     admin: {
       email: ENV.POCKETBASE_ADMIN_EMAIL,
       password: ENV.POCKETBASE_ADMIN_PASSWORD
-    }
+    },
+    tablePrefix: ENV.POCKETBASE_TABLE_PREFIX
   }
 }
 export default Config
