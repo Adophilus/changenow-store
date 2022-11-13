@@ -66,9 +66,9 @@ const Store: React.FC = () => {
           )}
           <div className="row">
             <Pagination
-              totalCount={productsMeta?.totalItems}
-              currentPage={productsMeta?.page}
-              pageSize={productsMeta?.perPage}
+              totalCount={productsMeta?.totalItems ?? 0}
+              currentPage={productsMeta?.page ?? 1}
+              pageSize={productsMeta?.perPage ?? 1}
               onPageChange={onPageChange}
             />
           </div>

@@ -7,7 +7,12 @@ export default () => {
     plugins: [react()],
     base: process.env.BASE_URL,
     build: {
-      outDir: '../build/frontend'
+      outDir: './build/frontend'
+    },
+    resolve: {
+      alias: [{
+        find: '@', replacement: '.'
+      }]
     },
     server: {
       proxy: {

@@ -18,11 +18,11 @@ const Product: React.FC = () => {
     data: product,
     error,
     isLoading
-  } = useGetProductQuery({ sku: parseInt(sku) })
+  } = useGetProductQuery({ sku: parseInt(String(sku)) })
   const { inCart, inFavourites } = useAppSelector((state) => {
     return {
-      inCart: state.cart.has(product?.id),
-      inFavourites: state.favourites.has(product?.id)
+      inCart: state.cart.has(product?.id ?? ''),
+      inFavourites: state.favourites.has(product?.id ?? '')
     }
   })
 
@@ -64,13 +64,13 @@ const Product: React.FC = () => {
       ) : (
         <article>
           <div className="product-cover">
-            <img src={product.image} />
+            {product ? <img src={product.image} /> : null}
           </div>
           <div>
-            <h4 className="product-title">{product.title}</h4>
+            <h4 className="product-title">{product?.title ?? ''}</h4>
           </div>
           <div className="product-price">
-            <h5>{product.price} XRP</h5>
+            <h5>{product?.price ?? ''} XRP</h5>
           </div>
           <div className="product-btns">
             <a

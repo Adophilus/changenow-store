@@ -86,7 +86,7 @@ const Cart: React.FC = () => {
             <i className="bi bi-emoji-frown"></i>
             <h3>An error occurred!</h3>
           </div>
-        ) : products.length === 0 ? (
+        ) : products?.length && products.length === 0 ? (
           <article>
             <div className="loader-full-screen no-products-found">
               <i className="icon bi bi-bag"></i> <h3>No items in Cart!</h3>
@@ -109,7 +109,7 @@ const Cart: React.FC = () => {
               </div>
             </article>
             <article>
-              {products.map((product) => (
+              {products?.map((product) => (
                 <ProductRow key={product.id} product={product} cart={cart} />
               ))}
             </article>
