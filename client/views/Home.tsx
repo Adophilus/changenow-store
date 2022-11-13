@@ -1,6 +1,7 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import Layout from '../components/layout/Layout'
 import ProductCarousel from '../components/product/Carousel'
+import { Link } from 'react-router-dom'
 import 'swiper/css/bundle'
 import '../assets/Banner.scss'
 import '../assets/Product.scss'
@@ -53,19 +54,19 @@ const Home: React.FC = () => {
         <p>
           ChangeNOW Store is an Ecommerce platform where users can purchase
           clothing using{' '}
-          <a
-            href="https://en.wikipedia.org/wiki/Ripple_(payment_protocol)"
+          <Link
+            to="https://en.wikipedia.org/wiki/Ripple_(payment_protocol)"
             rel="noreferrer noopener"
           >
             XRP (Ripple)
-          </a>
+          </Link>
           . It has an ultra simple and intuitive UI -- you should feel right at
           home here.
         </p>
         <p>
-          <a role="button" href="/about">
+          <Link role="button" to="/about">
             Read More
-          </a>
+          </Link>
         </p>
       </article>
     </Layout>
