@@ -21,6 +21,9 @@ interface IProductQueryParams {
   sku?: number
 }
 
+const baseUrl = `${import.meta.env.BASE_URL}api/` 
+console.log(baseUrl)
+
 const prepareQuery = (
   params: IPocketBaseRecordQueryParams
 ): URLSearchParams => {
@@ -42,7 +45,7 @@ const prepareQuery = (
 
 export const backendApi = createApi({
   reducerPath: 'backendApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.BASE_URL}api/` }),
+  baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getAllCategories: builder.query<ICategory[], null>({
       query() {
