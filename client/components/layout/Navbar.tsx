@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import '../../assets/Navbar.scss'
-import '../../assets/Cart.scss'
+import '@/client/assets/Navbar.scss'
+import '@/client/assets/Cart.scss'
 import React from 'react'
-import { selectCart } from '../../features/Cart'
+import { selectCart } from '@/client/assets/features/Cart'
+import { LogoBlackImage } from '@/client/assets/logo-black.png'
 
 const Navbar: React.FC = () => {
   const cart = useSelector(selectCart)
@@ -14,7 +15,7 @@ const Navbar: React.FC = () => {
         <ul>
           <li>
             <Link to="/">
-              <img className="logo" src="/logo-black.png" />
+              <img className="logo" src={LogoBlackImage} />
             </Link>
           </li>
         </ul>
