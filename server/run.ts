@@ -1,5 +1,5 @@
 import Server from './main'
-import config from '@/utils/Config'
+import Config from '@/utils/Config'
 
 const server = new Server()
-server.start(parseInt(config.server.port))
+server.start(parseInt(Config.server.port))

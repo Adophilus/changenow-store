@@ -22,7 +22,6 @@ interface IProductQueryParams {
 }
 
 const baseUrl = `${import.meta.env.BASE_URL}api/` 
-console.log(baseUrl)
 
 const prepareQuery = (
   params: IPocketBaseRecordQueryParams
